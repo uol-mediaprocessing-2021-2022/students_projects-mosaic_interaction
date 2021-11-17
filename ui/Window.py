@@ -28,6 +28,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.classicButton.clicked.connect(self.classicBtnListener)
 
         self.db = Database()
+        self.showImageLibrary(self.db.getAllCroppedImages())
 
     def bibTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -40,21 +41,24 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def importBtnListener(self):
         self.db.importAllImages(self.libraryLineEdit.text())
+        self.showImageLibrary(self.db.getAllCroppedImages())
 
-        # for img in self.allCroppedImages:
-        #     self.db.saveImg(img, img, self.allColorValues[0])
-        #     image = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_RGB888)
-        #     icon = QtGui.QIcon()
-        #     icon.addPixmap(QtGui.QPixmap.fromImage(image))
-        #
-        #     item = QtGui.QStandardItem()
-        #     item.setIcon(icon)
-        #
-        #     self.imageListViewModel.appendRow(item)
+    def showImageLibrary(self, cursor):
+        for img_arr in cursor:
+            img = self.db.decode(img_arr[0])
+
+            image = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_RGB888)
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap.fromImage(image))
+
+            item = QtGui.QStandardItem()
+            item.setIcon(icon)
+
+            self.imageListViewModel.appendRow(item)
 
     def classicBtnListener(self):
         img = destroyImgFix(rgbImport(self.mainImageLineEdit.text()))
-        result = createMosaic(img, self.allCroppedImages, self.allColorValues)
+        result = createMosaic(img, self.db.getAllCroppedImages().fetchall(), self.db.getAllColorValues().fetchall())
         cv2.imwrite("output.jpeg", result)
 
         imageViewerFromCommandLine = {'linux': 'xdg-open',
