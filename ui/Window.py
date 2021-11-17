@@ -40,7 +40,15 @@ class Window(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(2)
 
     def importBtnListener(self):
-        self.db.importAllImages(self.libraryLineEdit.text())
+        importPath = self.libraryLineEdit.text()
+
+        if importPath.endswith(".mp4"):
+            subprocess.run("ffmpeg -i " + importPath + " -vf fps=1/5 bib/out%d.png")
+            self.db.importAllImages("bib")
+
+        else:
+            self.db.importAllImages(importPath)
+
         self.showImageLibrary(self.db.getAllCroppedImages())
 
     def showImageLibrary(self, cursor):

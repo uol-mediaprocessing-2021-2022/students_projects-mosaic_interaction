@@ -3,7 +3,6 @@ import sqlite3
 
 import cv2
 import numpy as np
-from PyQt5 import QtGui
 
 import mosaic
 
@@ -12,9 +11,6 @@ class Database:
     db_path = "mosaic.db"
 
     def __init__(self):
-
-        # sqlite3.register_adapter(np.int64, lambda val: int(val))
-        # sqlite3.register_adapter(np.int32, lambda val: int(val))
 
         self.connection = sqlite3.connect(self.db_path)
 
