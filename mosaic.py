@@ -89,21 +89,38 @@ def getAllColorValues(allImages):
 
 
 #  Erstellt das MosAIc
-def createMosaic(originImg, allCroppedImages, allColorValues):
+def createMosaic(originImg, allColorValuesWithIDs, db):
+    ids = allColorValuesWithIDs[:, 0]
+    colorValues = allColorValuesWithIDs[:, 1:]
     originImg = destroyImgFix(originImg)
     height, width, channels = originImg.shape
-    col = []
+
+    id_matrix = []
     for y in range(height):
-        row = []
+        id_matrix_row = []
         for x in range(width):
             minDif = 500
-            for i in range(len(allColorValues)):
-                value = allColorValues[i]
+            for i in range(len(colorValues)):
+                value = colorValues[i]
                 dif = getColorDifference(value, originImg[y, x])
                 if dif < minDif:
                     minDif = dif
-                    minDifPosition = i
-            row.append(allCroppedImages[minDifPosition])
-        col.append(np.concatenate(row, axis=1))
+                    minDifID = ids[i]
 
-    return cv2.cvtColor(np.concatenate(col, axis=0), cv2.COLOR_BGR2RGB)
+            id_matrix_row.append(minDifID)
+        if y == 0:
+            id_matrix = id_matrix_row
+        else:
+            id_matrix = np.vstack([id_matrix, id_matrix_row])
+
+    croppedImagesWithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix)).fetchall())
+
+    mosaic_img = []
+    for id_matrix_row in id_matrix:
+        mosaic_row = []
+        for id in id_matrix_row:
+            img_to_append = db.decode(croppedImagesWithIDs[croppedImagesWithIDs[:, 0].astype(int) == id, 1])
+            mosaic_row.append(img_to_append)
+        mosaic_img.append(np.concatenate(mosaic_row, axis=1))
+
+    return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)

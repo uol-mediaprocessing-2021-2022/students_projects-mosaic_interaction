@@ -58,10 +58,11 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def classicBtnListener(self):
         img = destroyImgFix(rgbImport(self.mainImageLineEdit.text()))
-        result = createMosaic(img, self.db.getAllCroppedImages().fetchall(), self.db.getAllColorValues().fetchall())
+        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()), self.db)
         cv2.imwrite("output.jpeg", result)
 
         imageViewerFromCommandLine = {'linux': 'xdg-open',
                                       'win32': 'explorer',
                                       'darwin': 'open'}[sys.platform]
         subprocess.run([imageViewerFromCommandLine, "output.jpeg"])
+

@@ -12,6 +12,10 @@ class Database:
     db_path = "mosaic.db"
 
     def __init__(self):
+
+        # sqlite3.register_adapter(np.int64, lambda val: int(val))
+        # sqlite3.register_adapter(np.int32, lambda val: int(val))
+
         self.connection = sqlite3.connect(self.db_path)
 
         cursor = self.newCursor()
@@ -44,14 +48,20 @@ class Database:
         cursor.execute('''SELECT img_cropped FROM image''')
         return cursor
 
+    def getCroppedImagesWithIDByID(self, ids):
+        cursor = self.newCursor()
+        sql = "SELECT image_id, img_cropped FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
+        cursor.execute(sql, ids)
+        return cursor
+
     def getAllOriginalImages(self):
         cursor = self.newCursor()
         cursor.execute('''SELECT img_original FROM image''')
         return cursor
 
-    def getAllColorValues(self):
+    def getAllColorValuesWithIDs(self):
         cursor = self.newCursor()
-        cursor.execute('''SELECT color_r, color_g, color_b FROM image''')
+        cursor.execute('''SELECT image_id, color_r, color_g, color_b FROM image''')
         return cursor
 
     def newCursor(self):
@@ -65,4 +75,3 @@ class Database:
     def decode(self, img_string):
         nparr = np.fromstring(img_string, np.uint8)
         return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        # return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
