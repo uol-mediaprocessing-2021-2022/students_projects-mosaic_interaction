@@ -4,6 +4,8 @@ import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMainWindow
 
+import mosaic
+from Database import Database
 from mosaic import *
 from ui.Ui_MainWindow import Ui_MainWindow
 
@@ -25,6 +27,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.classicButton.clicked.connect(self.classicBtnListener)
 
+        self.db = Database()
+
     def bibTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(0)
 
@@ -35,18 +39,18 @@ class Window(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(2)
 
     def importBtnListener(self):
-        self.allCroppedImages = cropAllImages(getAllImages(self.libraryLineEdit.text()))
-        self.allColorValues = getAllColorValues(self.allCroppedImages)
+        self.db.importAllImages(self.libraryLineEdit.text())
 
-        for img in self.allCroppedImages:
-            image = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_RGB888)
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap.fromImage(image))
-
-            item = QtGui.QStandardItem()
-            item.setIcon(icon)
-
-            self.imageListViewModel.appendRow(item)
+        # for img in self.allCroppedImages:
+        #     self.db.saveImg(img, img, self.allColorValues[0])
+        #     image = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_RGB888)
+        #     icon = QtGui.QIcon()
+        #     icon.addPixmap(QtGui.QPixmap.fromImage(image))
+        #
+        #     item = QtGui.QStandardItem()
+        #     item.setIcon(icon)
+        #
+        #     self.imageListViewModel.appendRow(item)
 
     def classicBtnListener(self):
         img = destroyImgFix(rgbImport(self.mainImageLineEdit.text()))
