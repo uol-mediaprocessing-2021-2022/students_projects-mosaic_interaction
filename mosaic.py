@@ -29,15 +29,8 @@ def quadsize(img, size):
     return cv2.resize(cropped_image, (size, size))
 
 
-# Komprimierungsansatz mittels dynamischer Verpixelung
-def destroyImgDyn(img):
-    height, width, channels = img.shape
-    img = cv2.resize(img, (int(width / 12), int(height / 12)))
-    return img
-
-
-# Komprimierungsansatz auf feste Größe (TODO: auch Hochkanntbilder sollen unterstützt werden)
-def destroyImgFix(img, width, height):
+# Komprimierungsansatz auf feste Größe
+def destroyImg(img, width, height):
     img = cv2.resize(img, (width, height))
     return img
 
