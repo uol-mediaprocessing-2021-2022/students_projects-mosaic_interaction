@@ -51,10 +51,9 @@ class Ui_MainWindow(object):
         self.libraryTabButton.setFont(font)
         self.libraryTabButton.setStyleSheet("QPushButton {    \n"
 "    border: none;\n"
-"/*    text-align: center;*/\n"
 "    color: rgb(255,255,255);\n"
 "    text-align: left;;\n"
-"    padding-left: 50px;\n"
+"    padding-left: 20px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(33, 37, 43);\n"
@@ -80,7 +79,7 @@ class Ui_MainWindow(object):
 "/*    text-align: center;*/\n"
 "    color: rgb(255,255,255);\n"
 "    text-align: left;;\n"
-"    padding-left: 50px;\n"
+"    padding-left: 20px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(33, 37, 43);\n"
@@ -102,10 +101,9 @@ class Ui_MainWindow(object):
         self.partialTabButton.setFont(font)
         self.partialTabButton.setStyleSheet("QPushButton {    \n"
 "    border: none;\n"
-"/*    text-align: center;*/\n"
 "    color: rgb(255,255,255);\n"
 "    text-align: left;;\n"
-"    padding-left: 50px;\n"
+"    padding-left: 20px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(33, 37, 43);\n"
@@ -151,7 +149,7 @@ class Ui_MainWindow(object):
         self.libraryLabel.setStyleSheet("color: rgb(255,255,255);")
         self.libraryLabel.setObjectName("libraryLabel")
         self.importButton = QtWidgets.QPushButton(self.libraryPage)
-        self.importButton.setGeometry(QtCore.QRect(470, 50, 81, 20))
+        self.importButton.setGeometry(QtCore.QRect(460, 50, 91, 20))
         self.importButton.setMinimumSize(QtCore.QSize(81, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -178,11 +176,22 @@ class Ui_MainWindow(object):
         self.libraryLine.setFrameShape(QtWidgets.QFrame.HLine)
         self.libraryLine.setObjectName("libraryLine")
         self.imageListView = QtWidgets.QListView(self.libraryPage)
-        self.imageListView.setGeometry(QtCore.QRect(40, 90, 511, 351))
+        self.imageListView.setGeometry(QtCore.QRect(40, 90, 511, 311))
         self.imageListView.setMinimumSize(QtCore.QSize(511, 311))
         self.imageListView.setMaximumSize(QtCore.QSize(99999, 99999))
+        self.imageListView.setStyleSheet("\n"
+"QScrollBar:vertical {\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    background: rgb(75,166,255);\n"
+"    border-radius: 5px;\n"
+"}")
         self.imageListView.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.imageListView.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.imageListView.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.imageListView.setAutoScrollMargin(16)
         self.imageListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.imageListView.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
@@ -190,35 +199,67 @@ class Ui_MainWindow(object):
         self.imageListView.setViewMode(QtWidgets.QListView.IconMode)
         self.imageListView.setUniformItemSizes(True)
         self.imageListView.setObjectName("imageListView")
+        self.importProgressBar = QtWidgets.QProgressBar(self.libraryPage)
+        self.importProgressBar.setGeometry(QtCore.QRect(460, 50, 91, 20))
+        self.importProgressBar.setMinimumSize(QtCore.QSize(81, 20))
+        self.importProgressBar.setStyleSheet("QProgressBar {\n"
+"    color: rgb(255,255,255);\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+" }\n"
+"\n"
+" QProgressBar::chunk {\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+" }")
+        self.importProgressBar.setProperty("value", 50)
+        self.importProgressBar.setTextVisible(False)
+        self.importProgressBar.setObjectName("importProgressBar")
+        self.deleteLibraryButton = QtWidgets.QPushButton(self.libraryPage)
+        self.deleteLibraryButton.setGeometry(QtCore.QRect(460, 420, 91, 20))
+        self.deleteLibraryButton.setMinimumSize(QtCore.QSize(81, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.deleteLibraryButton.setFont(font)
+        self.deleteLibraryButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.deleteLibraryButton.setStyleSheet("QPushButton {    \n"
+"    border: rgb(255,255,255);\n"
+"    color: rgb(255,255,255);\n"
+"    background-color: rgb(75,166,255);\n"
+"    border-radius: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(51, 59, 73);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(33, 37, 43);\n"
+"}")
+        self.deleteLibraryButton.setDefault(True)
+        self.deleteLibraryButton.setObjectName("deleteLibraryButton")
         self.importButton.raise_()
         self.libraryLineEdit.raise_()
         self.libraryLabel.raise_()
         self.libraryLine.raise_()
         self.imageListView.raise_()
+        self.importProgressBar.raise_()
+        self.deleteLibraryButton.raise_()
         self.stackedWidget.addWidget(self.libraryPage)
         self.classicPage = QtWidgets.QWidget()
         self.classicPage.setObjectName("classicPage")
-        self.mainImageLabel = QtWidgets.QLabel(self.classicPage)
-        self.mainImageLabel.setGeometry(QtCore.QRect(40, 20, 61, 21))
+        self.mosaicImageLineEdit = QtWidgets.QLineEdit(self.classicPage)
+        self.mosaicImageLineEdit.setGeometry(QtCore.QRect(150, 50, 401, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.mainImageLabel.setFont(font)
-        self.mainImageLabel.setStyleSheet("color: rgb(255,255,255);")
-        self.mainImageLabel.setObjectName("mainImageLabel")
-        self.mainImageLineEdit = QtWidgets.QLineEdit(self.classicPage)
-        self.mainImageLineEdit.setGeometry(QtCore.QRect(110, 20, 441, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.mainImageLineEdit.setFont(font)
-        self.mainImageLineEdit.setStyleSheet("QLineEdit {    \n"
+        self.mosaicImageLineEdit.setFont(font)
+        self.mosaicImageLineEdit.setStyleSheet("QLineEdit {    \n"
 "    border: none;\n"
 "    color: rgb(255,255,255);\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5;\n"
 "}")
-        self.mainImageLineEdit.setObjectName("mainImageLineEdit")
+        self.mosaicImageLineEdit.setObjectName("mosaicImageLineEdit")
         self.classicButton = QtWidgets.QPushButton(self.classicPage)
-        self.classicButton.setGeometry(QtCore.QRect(470, 50, 81, 20))
+        self.classicButton.setGeometry(QtCore.QRect(460, 250, 91, 20))
         self.classicButton.setMinimumSize(QtCore.QSize(81, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -238,19 +279,10 @@ class Ui_MainWindow(object):
 "}")
         self.classicButton.setDefault(True)
         self.classicButton.setObjectName("classicButton")
-        self.classicLine = QtWidgets.QFrame(self.classicPage)
-        self.classicLine.setGeometry(QtCore.QRect(40, 70, 511, 21))
-        self.classicLine.setStyleSheet("color: rgb(27, 29, 35)")
-        self.classicLine.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.classicLine.setFrameShape(QtWidgets.QFrame.HLine)
-        self.classicLine.setObjectName("classicLine")
-        self.stackedWidget.addWidget(self.classicPage)
-        self.partialPage = QtWidgets.QWidget()
-        self.partialPage.setObjectName("partialPage")
-        self.importProgressBar = QtWidgets.QProgressBar(self.partialPage)
-        self.importProgressBar.setGeometry(QtCore.QRect(500, 410, 81, 20))
-        self.importProgressBar.setMinimumSize(QtCore.QSize(81, 20))
-        self.importProgressBar.setStyleSheet("QProgressBar {\n"
+        self.classicProgressBar = QtWidgets.QProgressBar(self.classicPage)
+        self.classicProgressBar.setGeometry(QtCore.QRect(460, 250, 91, 20))
+        self.classicProgressBar.setMinimumSize(QtCore.QSize(81, 20))
+        self.classicProgressBar.setStyleSheet("QProgressBar {\n"
 "    color: rgb(255,255,255);\n"
 "     border-radius: 5px;\n"
 "     background-color: rgb(27, 29, 35);\n"
@@ -260,9 +292,117 @@ class Ui_MainWindow(object):
 "     border-radius: 5px;\n"
 "     background-color: rgb(75,166,255);\n"
 " }")
-        self.importProgressBar.setProperty("value", 24)
-        self.importProgressBar.setTextVisible(False)
-        self.importProgressBar.setObjectName("importProgressBar")
+        self.classicProgressBar.setProperty("value", 50)
+        self.classicProgressBar.setTextVisible(False)
+        self.classicProgressBar.setObjectName("classicProgressBar")
+        self.mosaicHeightLineEdit = QtWidgets.QLineEdit(self.classicPage)
+        self.mosaicHeightLineEdit.setGeometry(QtCore.QRect(150, 110, 31, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicHeightLineEdit.setFont(font)
+        self.mosaicHeightLineEdit.setStyleSheet("QLineEdit {    \n"
+"    border: none;\n"
+"    color: rgb(255,255,255);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5;\n"
+"}")
+        self.mosaicHeightLineEdit.setObjectName("mosaicHeightLineEdit")
+        self.mosaicWidthLineEdit = QtWidgets.QLineEdit(self.classicPage)
+        self.mosaicWidthLineEdit.setGeometry(QtCore.QRect(150, 80, 31, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicWidthLineEdit.setFont(font)
+        self.mosaicWidthLineEdit.setStyleSheet("QLineEdit {    \n"
+"    border: none;\n"
+"    color: rgb(255,255,255);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5;\n"
+"}")
+        self.mosaicWidthLineEdit.setClearButtonEnabled(False)
+        self.mosaicWidthLineEdit.setObjectName("mosaicWidthLineEdit")
+        self.mosaicLabel = QtWidgets.QLabel(self.classicPage)
+        self.mosaicLabel.setGeometry(QtCore.QRect(40, 20, 101, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicLabel.setFont(font)
+        self.mosaicLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.mosaicLabel.setObjectName("mosaicLabel")
+        self.mosaicWidthLabel = QtWidgets.QLabel(self.classicPage)
+        self.mosaicWidthLabel.setGeometry(QtCore.QRect(60, 80, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicWidthLabel.setFont(font)
+        self.mosaicWidthLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.mosaicWidthLabel.setObjectName("mosaicWidthLabel")
+        self.mosaicHeightLabel = QtWidgets.QLabel(self.classicPage)
+        self.mosaicHeightLabel.setGeometry(QtCore.QRect(60, 110, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicHeightLabel.setFont(font)
+        self.mosaicHeightLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.mosaicHeightLabel.setObjectName("mosaicHeightLabel")
+        self.keepAspectRatioCheckBox = QtWidgets.QCheckBox(self.classicPage)
+        self.keepAspectRatioCheckBox.setGeometry(QtCore.QRect(60, 140, 201, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.keepAspectRatioCheckBox.setFont(font)
+        self.keepAspectRatioCheckBox.setStyleSheet("QCheckBox{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QCheckBox::indicator:unchecked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.keepAspectRatioCheckBox.setChecked(True)
+        self.keepAspectRatioCheckBox.setObjectName("keepAspectRatioCheckBox")
+        self.elementLabel = QtWidgets.QLabel(self.classicPage)
+        self.elementLabel.setGeometry(QtCore.QRect(40, 180, 101, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.elementLabel.setFont(font)
+        self.elementLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.elementLabel.setObjectName("elementLabel")
+        self.mosaicImageLabel = QtWidgets.QLabel(self.classicPage)
+        self.mosaicImageLabel.setGeometry(QtCore.QRect(60, 50, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicImageLabel.setFont(font)
+        self.mosaicImageLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.mosaicImageLabel.setObjectName("mosaicImageLabel")
+        self.elementSizeLabel = QtWidgets.QLabel(self.classicPage)
+        self.elementSizeLabel.setGeometry(QtCore.QRect(60, 210, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.elementSizeLabel.setFont(font)
+        self.elementSizeLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.elementSizeLabel.setObjectName("elementSizeLabel")
+        self.elementSizeComboBox = QtWidgets.QComboBox(self.classicPage)
+        self.elementSizeComboBox.setGeometry(QtCore.QRect(150, 210, 53, 22))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.elementSizeComboBox.setFont(font)
+        self.elementSizeComboBox.setStyleSheet("QComboBox {    \n"
+"    border: none;\n"
+"    color: rgb(255,255,255);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5;\n"
+"}")
+        self.elementSizeComboBox.setFrame(True)
+        self.elementSizeComboBox.setObjectName("elementSizeComboBox")
+        self.elementSizeComboBox.addItem("")
+        self.elementSizeComboBox.addItem("")
+        self.elementSizeComboBox.addItem("")
+        self.elementSizeComboBox.addItem("")
+        self.stackedWidget.addWidget(self.classicPage)
+        self.partialPage = QtWidgets.QWidget()
+        self.partialPage.setObjectName("partialPage")
         self.stackedWidget.addWidget(self.partialPage)
         self.horizontalLayout.addWidget(self.stackedWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -280,7 +420,20 @@ class Ui_MainWindow(object):
         self.libraryLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\out"))
         self.libraryLabel.setText(_translate("MainWindow", "Bibliothek"))
         self.importButton.setText(_translate("MainWindow", "importieren"))
-        self.mainImageLabel.setText(_translate("MainWindow", "Bild"))
-        self.mainImageLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\input.png"))
+        self.deleteLibraryButton.setText(_translate("MainWindow", "Bibliothek Löschen"))
+        self.mosaicImageLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\input.png"))
         self.classicButton.setText(_translate("MainWindow", "erstellen"))
+        self.mosaicHeightLineEdit.setText(_translate("MainWindow", "144"))
+        self.mosaicWidthLineEdit.setText(_translate("MainWindow", "256"))
+        self.mosaicLabel.setText(_translate("MainWindow", "Mosaik:"))
+        self.mosaicWidthLabel.setText(_translate("MainWindow", "Breite:"))
+        self.mosaicHeightLabel.setText(_translate("MainWindow", "Höhe:"))
+        self.keepAspectRatioCheckBox.setText(_translate("MainWindow", "Höhe automatisch bestimmen"))
+        self.elementLabel.setText(_translate("MainWindow", "Elemente:"))
+        self.mosaicImageLabel.setText(_translate("MainWindow", "Bild:"))
+        self.elementSizeLabel.setText(_translate("MainWindow", "Breite/Höhe:"))
+        self.elementSizeComboBox.setItemText(0, _translate("MainWindow", "32"))
+        self.elementSizeComboBox.setItemText(1, _translate("MainWindow", "64"))
+        self.elementSizeComboBox.setItemText(2, _translate("MainWindow", "128"))
+        self.elementSizeComboBox.setItemText(3, _translate("MainWindow", "256"))
 
