@@ -219,7 +219,7 @@ QPushButton:checked {
 }</string>
            </property>
            <property name="text">
-            <string>Teil-Mosaic erstellen</string>
+            <string>WIP . . .</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -512,6 +512,90 @@ QPushButton:pressed {
           <bool>true</bool>
          </property>
         </widget>
+        <widget class="QCheckBox" name="faceDetectionCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>50</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Auf Gesichter zuschneiden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="minNeighborsLabel">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>50</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Schwellenwert:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="minNeighborsLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>50</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>30</string>
+         </property>
+        </widget>
         <zorder>importButton</zorder>
         <zorder>libraryLineEdit</zorder>
         <zorder>libraryLabel</zorder>
@@ -519,6 +603,9 @@ QPushButton:pressed {
         <zorder>imageListView</zorder>
         <zorder>importProgressBar</zorder>
         <zorder>deleteLibraryButton</zorder>
+        <zorder>faceDetectionCheckBox</zorder>
+        <zorder>minNeighborsLabel</zorder>
+        <zorder>minNeighborsLineEdit</zorder>
        </widget>
        <widget class="QWidget" name="classicPage">
         <widget class="QLineEdit" name="mosaicImageLineEdit">

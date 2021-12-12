@@ -28,6 +28,11 @@ class Window(QMainWindow, Ui_MainWindow):
         self.importProgressBar.setVisible(False)
 
         self.importButton.clicked.connect(self.importBtnListener)
+        self.faceDetectionCheckBox.clicked.connect(self.faceDetectionCheckBoxBtnListiner)
+
+        self.minNeighborsLabel.setVisible(self.faceDetectionCheckBox.isChecked())
+        self.minNeighborsLineEdit.setVisible(self.faceDetectionCheckBox.isChecked())
+
         self.deleteLibraryButton.clicked.connect(self.deleteLibraryBtnListiner)
 
         # classic-page
@@ -45,7 +50,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.showImageLibrary()
 
-# tab-buttons
+    # tab-buttons
     def bibTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(0)
 
@@ -55,7 +60,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def partialTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(2)
 
-# library page
+    # library page
     def importBtnListener(self):
         importPath = self.libraryLineEdit.text()
 
@@ -65,12 +70,22 @@ class Window(QMainWindow, Ui_MainWindow):
             os.makedirs('bib')
 
             subprocess.run('ffmpeg -i ' + importPath + ' -vf fps=1/5 bib/out%d.png')
-            self.db.importAllImages('bib', self.importProgressBar)
+            self.db.importAllImages('bib',
+                                    self.importProgressBar,
+                                    self.faceDetectionCheckBox.isChecked(),
+                                    int(self.minNeighborsLineEdit.text()))
 
         else:
-            self.db.importAllImages(importPath, self.importProgressBar)
+            self.db.importAllImages(importPath,
+                                    self.importProgressBar,
+                                    self.faceDetectionCheckBox.isChecked(),
+                                    int(self.minNeighborsLineEdit.text()))
 
         self.showImageLibrary()
+
+    def faceDetectionCheckBoxBtnListiner(self, checked):
+        self.minNeighborsLineEdit.setVisible(checked)
+        self.minNeighborsLabel.setVisible(checked)
 
     def deleteLibraryBtnListiner(self):
         self.db.deleteLibrary()
@@ -93,7 +108,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.importProgressBar.setVisible(False)
 
-# classic-page
+    # classic-page
     def keepAspectRatioCheckBoxBtnListiner(self, checked):
         self.mosaicHeightLineEdit.setVisible(not checked)
         self.mosaicHeightLabel.setVisible(not checked)
@@ -105,7 +120,8 @@ class Window(QMainWindow, Ui_MainWindow):
         img = destroyImg(img,
                          int(self.mosaicWidthLineEdit.text()),
                          self.getMosaicImageHeight(img))
-        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()), self.elementSizeComboBox.currentText(), self.db, self.classicProgressBar)
+        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+                              self.elementSizeComboBox.currentText(), self.db, self.classicProgressBar)
         cv2.imwrite('output.jpeg', result)
         self.classicProgressBar.setVisible(False)
 
@@ -120,4 +136,3 @@ class Window(QMainWindow, Ui_MainWindow):
             return int(height / (width / int(self.mosaicWidthLineEdit.text())))
         else:
             return int(self.mosaicHeightLineEdit.text())
-

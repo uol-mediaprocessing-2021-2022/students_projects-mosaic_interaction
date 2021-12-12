@@ -37,7 +37,7 @@ class Database:
                        (self.encode(img_original), self.encode(img_cropped_32), self.encode(img_cropped_64),
                         self.encode(img_cropped_128), self.encode(img_cropped_256), color[0], color[1], color[2]))
 
-    def importAllImages(self, folderPath, progressBar):
+    def importAllImages(self, folderPath, progressBar, crop_to_faces, min_neighbors):
         cursor = self.newCursor()
         listdir = os.listdir(folderPath)
         progressBar.setMaximum(len(listdir))
@@ -50,10 +50,10 @@ class Database:
             img = mosaic.rgbImport(os.path.join(folderPath, filename))
             if img is not None:
                 self.saveImg(img,
-                             mosaic.quadsize(img, 32),
-                             mosaic.quadsize(img, 64),
-                             mosaic.quadsize(img, 128),
-                             mosaic.quadsize(img, 256),
+                             mosaic.quadsize(img, 32, crop_to_faces, min_neighbors),
+                             mosaic.quadsize(img, 64, crop_to_faces, min_neighbors),
+                             mosaic.quadsize(img, 128, crop_to_faces, min_neighbors),
+                             mosaic.quadsize(img, 256, crop_to_faces, min_neighbors),
                              mosaic.getColorValue(img),
                              cursor)
             img_counter += 1
