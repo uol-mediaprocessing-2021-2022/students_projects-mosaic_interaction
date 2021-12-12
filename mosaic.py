@@ -73,7 +73,7 @@ def quadsize_centered_on_point(img, size, center):
 
 
 # Komprimierungsansatz auf feste Größe
-def destroyImgFix(img, width, height):
+def destroyImg(img, width, height):
     img = cv2.resize(img, (width, height))
     return img
 

@@ -117,9 +117,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.classicProgressBar.setValue(0)
         self.classicProgressBar.setVisible(True)
         img = rgbImport(self.mosaicImageLineEdit.text())
-        img = destroyImgFix(img,
-                            int(self.mosaicWidthLineEdit.text()),
-                            self.getMosaicImageHeight(img))
+        img = destroyImg(img,
+                         int(self.mosaicWidthLineEdit.text()),
+                         self.getMosaicImageHeight(img))
         result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
                               self.elementSizeComboBox.currentText(), self.db, self.classicProgressBar)
         cv2.imwrite('output.jpeg', result)
