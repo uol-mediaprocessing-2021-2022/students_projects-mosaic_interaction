@@ -13,39 +13,69 @@ def rgbImport(path):
     return img
 
 
+def get_faces(img, min_neighbors):
+    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    return face_cascade.detectMultiScale(img_gray, minNeighbors=min_neighbors)
+
+
 # Beliebiges Bild quadratisch zuschneiden
-def quadsize(img, size):
+def quadsize(img, size, crop_to_faces, min_neighbors):
+    if crop_to_faces:
+        faces = get_faces(img, min_neighbors)
+        if len(faces) == 0:
+            return quadsize_centered(img, size)
+
+        face_centers = []
+        for (x, y, w, h) in faces:
+            face_centers.append([x + (w / 2), y + (h / 2)])
+
+        face_centers = np.asarray(face_centers)
+        crop_center = np.mean(face_centers, axis=0)
+        return quadsize_centered_on_point(img, size, crop_center)
+
+    else:
+        return quadsize_centered(img, size)
+
+
+def quadsize_centered(img, size):
+    height, width, channels = img.shape
+    return quadsize_centered_on_point(img, size, [width / 2, height / 2])
+
+
+def quadsize_centered_on_point(img, size, center):
     height, width, channels = img.shape
 
     if width > height:
-        wStart = int((width - height) / 2)
-        wEnd = wStart + height
-        cropped_image = img[:, wStart:wEnd]
+        w_start = int(center[0] - (height/2))
+        if w_start < 0:
+            w_start = 0
+
+        w_end = w_start + height
+        if w_end > width:
+            w_start = width - height
+            w_end = width
+
+        cropped_image = img[:, w_start:w_end]
     else:
-        hStart = int((height - width) / 2)
-        hEnd = hStart + width
-        cropped_image = img[hStart:hEnd, :]
+        h_start = int(center[1] - (width/2))
+        if h_start < 0:
+            h_start = 0
+
+        h_end = h_start + width
+        if h_end > height:
+            h_start = height - width
+            h_end = height
+
+        cropped_image = img[h_start:h_end, :]
 
     return cv2.resize(cropped_image, (size, size))
 
 
-# Komprimierungsansatz mittels dynamischer Verpixelung
-def destroyImgDyn(img):
-    height, width, channels = img.shape
-    img = cv2.resize(img, (int(width / 12), int(height / 12)))
-    return img
-
-
-# Komprimierungsansatz auf feste Größe (TODO: auch Hochkanntbilder sollen unterstützt werden)
+# Komprimierungsansatz auf feste Größe
 def destroyImgFix(img, width, height):
     img = cv2.resize(img, (width, height))
     return img
-
-
-# Methode, die den durschnittlichen Farbwert eines Bildes liefert
-def getColorValueWRONG(img):
-    img = cv2.resize(img, (1, 1))
-    return img[0][0]
 
 
 # Methode, die den durschnittlichen Farbwert eines Bildes liefert
@@ -57,33 +87,6 @@ def getColorValue(img):
 def getColorDifference(color1, color2):
     return math.sqrt((int(color1[0]) - int(color2[0])) ** 2 + (int(color1[1]) - int(color2[1])) ** 2 + (
             int(color1[2]) - int(color2[2])) ** 2)
-
-
-#  Funktion, die Bilder importiert
-def getAllImages(folderPath):
-    images = []
-    for filename in os.listdir(folderPath):
-        img = rgbImport(os.path.join(folderPath, filename))
-        if img is not None:
-            images.append(img)
-    return images
-
-
-# Schneidet alle Bilder zu
-# wird derzeit nicht in der gui verwendet.
-def cropAllImages(allImages):
-    allCroppedImages = []
-    for img in allImages:
-        allCroppedImages.append(quadsize(img))
-    return allCroppedImages
-
-
-# Ermittelt die durchschnittlichen Farbwerte aller Bilder
-def getAllColorValues(allImages):
-    allColorValues = []
-    for img in allImages:
-        allColorValues.append(getColorValue(img))
-    return allColorValues
 
 
 #  Erstellt das MosAIc

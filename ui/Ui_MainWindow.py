@@ -236,6 +236,46 @@ class Ui_MainWindow(object):
 "}")
         self.deleteLibraryButton.setDefault(True)
         self.deleteLibraryButton.setObjectName("deleteLibraryButton")
+        self.faceDetectionCheckBox = QtWidgets.QCheckBox(self.libraryPage)
+        self.faceDetectionCheckBox.setGeometry(QtCore.QRect(40, 50, 141, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.faceDetectionCheckBox.setFont(font)
+        self.faceDetectionCheckBox.setStyleSheet("QCheckBox{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QCheckBox::indicator:unchecked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.faceDetectionCheckBox.setChecked(False)
+        self.faceDetectionCheckBox.setObjectName("faceDetectionCheckBox")
+        self.minNeighborsLabel = QtWidgets.QLabel(self.libraryPage)
+        self.minNeighborsLabel.setGeometry(QtCore.QRect(200, 50, 71, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.minNeighborsLabel.setFont(font)
+        self.minNeighborsLabel.setStyleSheet("color: rgb(255,255,255);")
+        self.minNeighborsLabel.setObjectName("minNeighborsLabel")
+        self.minNeighborsLineEdit = QtWidgets.QLineEdit(self.libraryPage)
+        self.minNeighborsLineEdit.setGeometry(QtCore.QRect(290, 50, 31, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.minNeighborsLineEdit.setFont(font)
+        self.minNeighborsLineEdit.setStyleSheet("QLineEdit {    \n"
+"    border: none;\n"
+"    color: rgb(255,255,255);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5;\n"
+"}")
+        self.minNeighborsLineEdit.setObjectName("minNeighborsLineEdit")
         self.importButton.raise_()
         self.libraryLineEdit.raise_()
         self.libraryLabel.raise_()
@@ -243,6 +283,9 @@ class Ui_MainWindow(object):
         self.imageListView.raise_()
         self.importProgressBar.raise_()
         self.deleteLibraryButton.raise_()
+        self.faceDetectionCheckBox.raise_()
+        self.minNeighborsLabel.raise_()
+        self.minNeighborsLineEdit.raise_()
         self.stackedWidget.addWidget(self.libraryPage)
         self.classicPage = QtWidgets.QWidget()
         self.classicPage.setObjectName("classicPage")
@@ -416,11 +459,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.libraryTabButton.setText(_translate("MainWindow", "Bibliothek"))
         self.classicTabButton.setText(_translate("MainWindow", "Mosaic erstellen"))
-        self.partialTabButton.setText(_translate("MainWindow", "Teil-Mosaic erstellen"))
+        self.partialTabButton.setText(_translate("MainWindow", "WIP . . ."))
         self.libraryLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\out"))
         self.libraryLabel.setText(_translate("MainWindow", "Bibliothek"))
         self.importButton.setText(_translate("MainWindow", "importieren"))
         self.deleteLibraryButton.setText(_translate("MainWindow", "Bibliothek Löschen"))
+        self.faceDetectionCheckBox.setText(_translate("MainWindow", "Auf Gesichter zuschneiden"))
+        self.minNeighborsLabel.setText(_translate("MainWindow", "Schwellenwert:"))
+        self.minNeighborsLineEdit.setText(_translate("MainWindow", "30"))
         self.mosaicImageLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\input.png"))
         self.classicButton.setText(_translate("MainWindow", "erstellen"))
         self.mosaicHeightLineEdit.setText(_translate("MainWindow", "144"))
