@@ -18,8 +18,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
         # tab-buttons
         self.libraryTabButton.clicked.connect(self.bibTabBtnListiner)
-        self.classicTabButton.clicked.connect(self.classicTabBtnListiner)
-        self.partialTabButton.clicked.connect(self.partialTabBtnListiner)
+        self.mosaicTabButton.clicked.connect(self.mosaicTabBtnListiner)
+        self.detailMosaicTabButton.clicked.connect(self.detailMosaicTabBtnListiner)
 
         # library-page
         self.imageListViewModel = QtGui.QStandardItemModel()
@@ -35,15 +35,25 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.deleteLibraryButton.clicked.connect(self.deleteLibraryBtnListiner)
 
-        # classic-page
-        self.classicButton.clicked.connect(self.classicBtnListener)
+        # mosaic-page
+        self.mosaicButton.clicked.connect(self.mosaicBtnListener)
 
-        self.keepAspectRatioCheckBox.clicked.connect(self.keepAspectRatioCheckBoxBtnListiner)
+        self.mosaicKeepAspectRatioCheckBox.clicked.connect(self.mosaicKeepAspectRatioCheckBoxBtnListiner)
 
-        self.mosaicHeightLineEdit.setVisible(not self.keepAspectRatioCheckBox.isChecked())
-        self.mosaicHeightLabel.setVisible(not self.keepAspectRatioCheckBox.isChecked())
+        self.mosaicHeightLineEdit.setVisible(not self.mosaicKeepAspectRatioCheckBox.isChecked())
+        self.mosaicHeightLabel.setVisible(not self.mosaicKeepAspectRatioCheckBox.isChecked())
 
-        self.classicProgressBar.setVisible(False)
+        self.mosaicProgressBar.setVisible(False)
+
+        # detailMosaic-page
+        self.detailMosaicButton.clicked.connect(self.detailMosaicBtnListener)
+
+        self.detailMosaicKeepAspectRatioCheckBox.clicked.connect(self.detailMosaicKeepAspectRatioCheckBoxBtnListiner)
+
+        self.detailMosaicHeightLineEdit.setVisible(not self.detailMosaicKeepAspectRatioCheckBox.isChecked())
+        self.detailMosaicHeightLabel.setVisible(not self.detailMosaicKeepAspectRatioCheckBox.isChecked())
+
+        self.detailMosaicProgressBar.setVisible(False)
 
         # misc
         self.db = Database()
@@ -54,10 +64,10 @@ class Window(QMainWindow, Ui_MainWindow):
     def bibTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(0)
 
-    def classicTabBtnListiner(self):
+    def mosaicTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def partialTabBtnListiner(self):
+    def detailMosaicTabBtnListiner(self):
         self.stackedWidget.setCurrentIndex(2)
 
     # library page
@@ -108,32 +118,59 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.importProgressBar.setVisible(False)
 
-    # classic-page
-    def keepAspectRatioCheckBoxBtnListiner(self, checked):
+    # mosaic-page
+    def mosaicKeepAspectRatioCheckBoxBtnListiner(self, checked):
         self.mosaicHeightLineEdit.setVisible(not checked)
         self.mosaicHeightLabel.setVisible(not checked)
 
-    def classicBtnListener(self):
-        self.classicProgressBar.setValue(0)
-        self.classicProgressBar.setVisible(True)
+    def mosaicBtnListener(self):
+        self.mosaicProgressBar.setValue(0)
+        self.mosaicProgressBar.setVisible(True)
         img = rgbImport(self.mosaicImageLineEdit.text())
         img = destroyImg(img,
                          int(self.mosaicWidthLineEdit.text()),
-                         self.getMosaicImageHeight(img))
-        result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
-                                    # self.elementSizeComboBox.currentText(),
-                                    self.db, self.classicProgressBar)
+                         self.getMosaicImageHeight(img,
+                                                   self.detailMosaicKeepAspectRatioCheckBox,
+                                                   int(self.mosaicWidthLineEdit.text()),
+                                                   int(self.mosaicHeightLineEdit.text())))
+        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+                              int(self.mosaicElementSizeComboBox.currentText()),
+                              self.db, self.mosaicProgressBar)
         cv2.imwrite('output.jpeg', result)
-        self.classicProgressBar.setVisible(False)
+        self.mosaicProgressBar.setVisible(False)
+        self.showImg('output.jpeg')
 
+    # detailMosaic-page
+    def detailMosaicKeepAspectRatioCheckBoxBtnListiner(self, checked):
+        self.detailMosaicHeightLineEdit.setVisible(not checked)
+        self.detailMosaicHeightLabel.setVisible(not checked)
+
+    def detailMosaicBtnListener(self):
+        self.detailMosaicProgressBar.setValue(0)
+        self.detailMosaicProgressBar.setVisible(True)
+        img = rgbImport(self.mosaicImageLineEdit.text())
+        img = destroyImg(img,
+                         int(self.detailMosaicWidthLineEdit.text()),
+                         self.getMosaicImageHeight(img,
+                                                   self.detailMosaicKeepAspectRatioCheckBox,
+                                                   int(self.detailMosaicWidthLineEdit.text()),
+                                                   int(self.detailMosaicHeightLineEdit.text())))
+        result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+                                    self.db, self.detailMosaicProgressBar)
+        cv2.imwrite('output.jpeg', result)
+        self.detailMosaicProgressBar.setVisible(False)
+        self.showImg('output.jpeg')
+
+    # misc
+    def getMosaicImageHeight(self, img, keepAspectRatioCheckBox, mosaicWidth, mosaicHeight):
+        if keepAspectRatioCheckBox.isChecked():
+            height, width, channels = img.shape
+            return int(height / (width / mosaicWidth))
+        else:
+            return mosaicHeight
+
+    def showImg(self, path):
         imageViewerFromCommandLine = {'linux': 'xdg-open',
                                       'win32': 'explorer',
                                       'darwin': 'open'}[sys.platform]
-        subprocess.run([imageViewerFromCommandLine, 'output.jpeg'])
-
-    def getMosaicImageHeight(self, img):
-        if self.keepAspectRatioCheckBox.isChecked():
-            height, width, channels = img.shape
-            return int(height / (width / int(self.mosaicWidthLineEdit.text())))
-        else:
-            return int(self.mosaicHeightLineEdit.text())
+        subprocess.run([imageViewerFromCommandLine, path])

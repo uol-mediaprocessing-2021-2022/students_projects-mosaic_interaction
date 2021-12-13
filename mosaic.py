@@ -141,7 +141,7 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
     return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
 
 
-#  Erstellt das MosAIc
+#  Erstellt das DetailMosAIc
 def createDetailMosaic(originImg, allColorValuesWithIDs, db, progressBar):
     id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
     croppedImages32WithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), 32).fetchall())
