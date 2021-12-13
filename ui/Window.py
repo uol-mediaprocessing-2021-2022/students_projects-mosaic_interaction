@@ -120,8 +120,9 @@ class Window(QMainWindow, Ui_MainWindow):
         img = destroyImg(img,
                          int(self.mosaicWidthLineEdit.text()),
                          self.getMosaicImageHeight(img))
-        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
-                              self.elementSizeComboBox.currentText(), self.db, self.classicProgressBar)
+        result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+                                    # self.elementSizeComboBox.currentText(),
+                                    self.db, self.classicProgressBar)
         cv2.imwrite('output.jpeg', result)
         self.classicProgressBar.setVisible(False)
 

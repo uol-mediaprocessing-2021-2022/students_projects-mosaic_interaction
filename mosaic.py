@@ -47,7 +47,7 @@ def quadsize_centered_on_point(img, size, center):
     height, width, channels = img.shape
 
     if width > height:
-        w_start = int(center[0] - (height/2))
+        w_start = int(center[0] - (height / 2))
         if w_start < 0:
             w_start = 0
 
@@ -58,7 +58,7 @@ def quadsize_centered_on_point(img, size, center):
 
         cropped_image = img[:, w_start:w_end]
     else:
-        h_start = int(center[1] - (width/2))
+        h_start = int(center[1] - (width / 2))
         if h_start < 0:
             h_start = 0
 
@@ -89,8 +89,7 @@ def getColorDifference(color1, color2):
             int(color1[2]) - int(color2[2])) ** 2)
 
 
-#  Erstellt das MosAIc
-def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar):
+def getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar):
     ids = allColorValuesWithIDs[:, 0]
     colorValues = allColorValuesWithIDs[:, 1:]
     height, width, channels = originImg.shape
@@ -119,7 +118,14 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
         else:
             id_matrix = np.vstack([id_matrix, id_matrix_row])
 
+    return id_matrix
+
+
+#  Erstellt das MosAIc
+def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar):
+    id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
     croppedImagesWithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), elementSize).fetchall())
+    progressBarValue = progressBar.value()
 
     mosaic_img = []
     for id_matrix_row in id_matrix:
@@ -133,3 +139,79 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
         mosaic_img.append(np.concatenate(mosaic_row, axis=1))
 
     return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
+
+
+#  Erstellt das MosAIc
+def createDetailMosaic(originImg, allColorValuesWithIDs, db, progressBar):
+    id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
+    croppedImages32WithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), 32).fetchall())
+    croppedImages64WithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), 64).fetchall())
+    croppedImages128WithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), 128).fetchall())
+    croppedImages256WithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), 256).fetchall())
+    progressBarValue = progressBar.value()
+
+    id_matrix = np.expand_dims(id_matrix, axis=2)
+    new_dim = np.full((len(id_matrix), len(id_matrix[0]), 1), 32)
+    new_dim2 = np.full((len(id_matrix), len(id_matrix[0]), 1), 0)
+    id_matrix = np.append(id_matrix, new_dim, axis=2)
+    id_matrix = np.append(id_matrix, new_dim2, axis=2)
+    id_matrix = np.append(id_matrix, new_dim2, axis=2)
+
+    combineImages(id_matrix, 32)
+
+    mosaic_img = []
+    for id_matrix_row in id_matrix:
+        mosaic_row = []
+        for id, size, y, x in id_matrix_row:
+            if size == 32:
+                croppedImagesToUse = croppedImages32WithIDs
+            elif size == 64:
+                croppedImagesToUse = croppedImages64WithIDs
+            elif size == 128:
+                croppedImagesToUse = croppedImages128WithIDs
+            elif size == 256:
+                croppedImagesToUse = croppedImages256WithIDs
+            else:
+                continue
+
+            img_to_append = db.decode(croppedImagesToUse[croppedImages32WithIDs[:, 0].astype(int) == id, 1])
+            y = int(y)
+            x = int(x)
+            img_to_append = img_to_append[y:y + 32, x:x + 32, ]
+            mosaic_row.append(img_to_append)
+            progressBarValue += 1
+            progressBar.setValue(progressBarValue)
+            QApplication.processEvents()
+        mosaic_img.append(np.concatenate(mosaic_row, axis=1))
+
+    return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
+
+
+def combineImages(id_matrix, img_size):
+    for row_idx, id_matrix_row in enumerate(id_matrix):
+        for col_idx, [id, size, y, x] in enumerate(id_matrix_row):
+            if size == img_size:
+                if row_idx + img_size / 32 >= len(id_matrix) - 1 or col_idx + img_size / 32 >= len(id_matrix_row) - 1 or \
+                        x != 0 or y != 0:
+                    continue
+
+                if (        id_matrix[row_idx                     , col_idx + int(img_size / 32), 0] == id
+                        and id_matrix[row_idx                     , col_idx + int(img_size / 32), 1] == size
+                        and id_matrix[row_idx                     , col_idx + int(img_size / 32), 2] == 0
+                        and id_matrix[row_idx                     , col_idx + int(img_size / 32), 3] == 0
+                        and id_matrix[row_idx + int(img_size / 32), col_idx                     , 0] == id
+                        and id_matrix[row_idx + int(img_size / 32), col_idx                     , 1] == size
+                        and id_matrix[row_idx + int(img_size / 32), col_idx                     , 2] == 0
+                        and id_matrix[row_idx + int(img_size / 32), col_idx                     , 3] == 0
+                        and id_matrix[row_idx + int(img_size / 32), col_idx + int(img_size / 32), 0] == id
+                        and id_matrix[row_idx + int(img_size / 32), col_idx + int(img_size / 32), 1] == size
+                        and id_matrix[row_idx + int(img_size / 32), col_idx + int(img_size / 32), 2] == 0
+                        and id_matrix[row_idx + int(img_size / 32), col_idx + int(img_size / 32), 3] == 0):
+
+                    for y in range(int((img_size * 2) / 32)):
+                        for x in range(int((img_size * 2) / 32)):
+                            id_matrix[row_idx + y, col_idx + x, 1] = img_size * 2
+                            id_matrix[row_idx + y, col_idx + x, 2] = y * 32
+                            id_matrix[row_idx + y, col_idx + x, 3] = x * 32
+    if img_size < 256:
+        combineImages(id_matrix, img_size * 2)

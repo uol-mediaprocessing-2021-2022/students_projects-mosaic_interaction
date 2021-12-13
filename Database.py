@@ -68,7 +68,7 @@ class Database:
 
     def getCroppedImagesWithIDByID(self, ids, elementSize):
         cursor = self.newCursor()
-        if elementSize == "32":
+        if elementSize == 32:
             sql = "SELECT image_id, img_cropped_32 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
         elif elementSize == 64:
             sql = "SELECT image_id, img_cropped_64 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
