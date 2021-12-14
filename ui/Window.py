@@ -148,7 +148,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def detailMosaicBtnListener(self):
         self.detailMosaicProgressBar.setValue(0)
         self.detailMosaicProgressBar.setVisible(True)
-        img = rgbImport(self.mosaicImageLineEdit.text())
+        img = rgbImport(self.detailMosaicImageLineEdit.text())
         img = destroyImg(img,
                          int(self.detailMosaicWidthLineEdit.text()),
                          self.getMosaicImageHeight(img,
@@ -156,7 +156,7 @@ class Window(QMainWindow, Ui_MainWindow):
                                                    int(self.detailMosaicWidthLineEdit.text()),
                                                    int(self.detailMosaicHeightLineEdit.text())))
         result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
-                                    self.db, self.detailMosaicProgressBar)
+                                    32, 512, self.db, self.detailMosaicProgressBar)
         cv2.imwrite('output.jpeg', result)
         self.detailMosaicProgressBar.setVisible(False)
         self.showImg('output.jpeg')

@@ -23,6 +23,7 @@ class Database:
                             img_cropped_64 TEXT,
                             img_cropped_128 TEXT,
                             img_cropped_256 TEXT,
+                            img_cropped_512 TEXT,
                             color_r REAL,
                             color_g REAL,
                             color_b REAL);''')
@@ -31,11 +32,12 @@ class Database:
     def __del__(self):
         self.connection.close()
 
-    def saveImg(self, img_original, img_cropped_32, img_cropped_64, img_cropped_128, img_cropped_256, color, cursor):
-        cursor.execute('''INSERT INTO image (img_original, img_cropped_32, img_cropped_64, img_cropped_128, img_cropped_256, color_r, color_g, color_b)
-                                VALUES (?,?,?,?,?,?,?,?)''',
+    def saveImg(self, img_original, img_cropped_32, img_cropped_64, img_cropped_128, img_cropped_256, img_cropped_512, color, cursor):
+        cursor.execute('''INSERT INTO image (img_original, img_cropped_32, img_cropped_64, img_cropped_128, img_cropped_256, img_cropped_512, color_r, color_g, color_b)
+                                VALUES (?,?,?,?,?,?,?,?,?)''',
                        (self.encode(img_original), self.encode(img_cropped_32), self.encode(img_cropped_64),
-                        self.encode(img_cropped_128), self.encode(img_cropped_256), color[0], color[1], color[2]))
+                        self.encode(img_cropped_128), self.encode(img_cropped_256), self.encode(img_cropped_512),
+                        color[0], color[1], color[2]))
 
     def importAllImages(self, folderPath, progressBar, crop_to_faces, min_neighbors):
         cursor = self.newCursor()
@@ -54,6 +56,7 @@ class Database:
                              mosaic.quadsize(img, 64, crop_to_faces, min_neighbors),
                              mosaic.quadsize(img, 128, crop_to_faces, min_neighbors),
                              mosaic.quadsize(img, 256, crop_to_faces, min_neighbors),
+                             mosaic.quadsize(img, 512, crop_to_faces, min_neighbors),
                              mosaic.getColorValue(img),
                              cursor)
             img_counter += 1
@@ -74,11 +77,18 @@ class Database:
             sql = "SELECT image_id, img_cropped_64 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
         elif elementSize == 128:
             sql = "SELECT image_id, img_cropped_128 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
-        else:
+        elif elementSize == 256:
             sql = "SELECT image_id, img_cropped_256 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
+        elif elementSize == 512:
+            sql = "SELECT image_id, img_cropped_512 FROM image WHERE image_id IN ({seq})".format(seq=','.join(['?'] * len(ids)))
+        else:
+            raise AssertionError('unknown elementSize: ' + str(elementSize))
 
-        cursor.execute(sql, ids)
-        return cursor
+        allImagesEncoded = cursor.execute(sql, ids).fetchall()
+        allImagesDecoded = []
+        for img in allImagesEncoded:
+            allImagesDecoded.append([img[0], self.decode(img[1])])
+        return allImagesDecoded
 
     def getAllOriginalImages(self):
         cursor = self.newCursor()
