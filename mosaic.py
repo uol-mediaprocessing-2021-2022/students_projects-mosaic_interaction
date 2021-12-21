@@ -1,5 +1,4 @@
 import math
-import os
 
 import cv2
 import numpy as np
@@ -142,23 +141,30 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
 
 
 #  Erstellt das DetailMosAIc
-def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, db, progressBar):
+def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, allowed_deviation, db, progressBar,
+                       useEdgeDetection):
+    if useEdgeDetection:
+        edges = getEdges(originImg)
+    else:
+        edges = np.full((originImg.shape[0], originImg.shape[1]), 0)
+
     id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
     croppedImagesWithIDs = []
 
-    for i in range(int(math.log2(maxSize / minSize))+1):
-        croppedImagesWithIDs.append(np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), minSize * (2 ** i))))
+    for i in range(int(math.log2(maxSize / minSize)) + 1):
+        croppedImagesWithIDs.append(
+            np.array(db.getCroppedImagesWithIDByID(np.append(np.unique(id_matrix), [3012], 0), minSize * (2 ** i))))
 
     progressBarValue = progressBar.value()
 
     id_matrix = np.expand_dims(id_matrix, axis=2)
     new_dim = np.full((len(id_matrix), len(id_matrix[0]), 1), minSize)  # size
     id_matrix = np.append(id_matrix, new_dim, axis=2)
-    new_dim2 = np.full((len(id_matrix), len(id_matrix[0]), 1), 0)       # x/y value
+    new_dim2 = np.full((len(id_matrix), len(id_matrix[0]), 1), 0)  # x/y value
     id_matrix = np.append(id_matrix, new_dim2, axis=2)
     id_matrix = np.append(id_matrix, new_dim2, axis=2)
 
-    combineImages(id_matrix, maxSize, minSize)
+    combineImages(id_matrix, maxSize, minSize, allowed_deviation, edges)
 
     mosaic_img = []
     for id_matrix_row in id_matrix:
@@ -178,30 +184,43 @@ def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, db, p
     return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
 
 
-def combineImages(id_matrix, img_size, min_img_size):
+def combineImages(id_matrix, img_size, min_img_size, allowed_deviation, edges):
     for row_idx, id_matrix_row in enumerate(id_matrix):
         for col_idx, [id, size, y, x] in enumerate(id_matrix_row):
-            if size != min_img_size:
+            if row_idx + img_size / min_img_size > len(id_matrix) \
+                    or col_idx + img_size / min_img_size > len(id_matrix_row):
                 continue
-            if row_idx + img_size / min_img_size >= len(id_matrix) or col_idx + img_size / min_img_size >= len(id_matrix_row):
+
+            combinable, most_used_img_id = checkForCombinableImages(id_matrix, row_idx, col_idx, img_size, min_img_size, edges, allowed_deviation)
+            if not combinable:
                 continue
-            if not checkForCombinableImages(id_matrix, row_idx, col_idx, img_size, min_img_size):
-                continue
+
 
             for y in range(int(img_size / min_img_size)):
                 for x in range(int(img_size / min_img_size)):
+                    id_matrix[row_idx + y, col_idx + x, 0] = most_used_img_id
                     id_matrix[row_idx + y, col_idx + x, 1] = img_size
                     id_matrix[row_idx + y, col_idx + x, 2] = y * min_img_size
                     id_matrix[row_idx + y, col_idx + x, 3] = x * min_img_size
 
     if (img_size / 2) > min_img_size:
-        combineImages(id_matrix, int(img_size / 2), min_img_size)
+        combineImages(id_matrix, int(img_size / 2), min_img_size, allowed_deviation, edges)
 
 
-def checkForCombinableImages(id_matrix, row, col, img_size, min_img_size):
+def checkForCombinableImages(id_matrix, row, col, img_size, min_img_size, edges, allowed_deviation):
+    dict = {}
     for r in range(int(img_size / min_img_size)):
         for c in range(int(img_size / min_img_size)):
-            if not (id_matrix[row + r, col + c, 0] == id_matrix[row, col, 0] and id_matrix[row + r, col + c, 1] == min_img_size):
-                return False
+            if id_matrix[row + r, col + c, 1] != min_img_size:
+                return False, -1
+            if edges[row + r, col + c] != 0:
+                return False, -1
 
-    return True
+            id = id_matrix[row + r, col + c, 0]
+            dict[id] = dict.get(id, 0) + 1
+
+    amount_of_small_imgs = int(img_size ** 2 / min_img_size ** 2)
+    return amount_of_small_imgs - max(dict.values()) <= allowed_deviation * amount_of_small_imgs, max(dict, key=dict.get)
+
+def getEdges(img):
+    return cv2.Canny(img.astype(np.uint8), 100, 250)

@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import sys
@@ -46,6 +47,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.mosaicProgressBar.setVisible(False)
 
         # detailMosaic-page
+        self.detailMosaicShowEdgesButton.clicked.connect(self.detailMosaicShowEdgesBtnListener)
         self.detailMosaicButton.clicked.connect(self.detailMosaicBtnListener)
 
         self.detailMosaicKeepAspectRatioCheckBox.clicked.connect(self.detailMosaicKeepAspectRatioCheckBoxBtnListiner)
@@ -54,6 +56,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.detailMosaicHeightLabel.setVisible(not self.detailMosaicKeepAspectRatioCheckBox.isChecked())
 
         self.detailMosaicProgressBar.setVisible(False)
+
+        # Workaround: won't work, even if it is set by Ui_MainWindow ...
+        self.detailMosaicElementMaxSizeComboBox.setCurrentText("512")
 
         # misc
         self.db = Database()
@@ -156,10 +161,27 @@ class Window(QMainWindow, Ui_MainWindow):
                                                    int(self.detailMosaicWidthLineEdit.text()),
                                                    int(self.detailMosaicHeightLineEdit.text())))
         result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
-                                    32, 512, self.db, self.detailMosaicProgressBar)
+                                    int(self.detailMosaicElementMinSizeComboBox.currentText()),
+                                    int(self.detailMosaicElementMaxSizeComboBox.currentText()),
+                                    float(int(self.detailMosaicElementAllowedDeviationLineEdit.text()) / 100),
+                                    self.db, self.detailMosaicProgressBar,
+                                    self.detailMosaicUseEdgedetectionCheckBox.isChecked())
         cv2.imwrite('output.jpeg', result)
         self.detailMosaicProgressBar.setVisible(False)
         self.showImg('output.jpeg')
+
+    def detailMosaicShowEdgesBtnListener(self):
+        img = rgbImport(self.detailMosaicImageLineEdit.text())
+        img = destroyImg(img,
+                         int(self.detailMosaicWidthLineEdit.text()),
+                         self.getMosaicImageHeight(img,
+                                                   self.detailMosaicKeepAspectRatioCheckBox,
+                                                   int(self.detailMosaicWidthLineEdit.text()),
+                                                   int(self.detailMosaicHeightLineEdit.text())))
+        result = getEdges(img)
+        cv2.imwrite('output.jpeg', result)
+        self.showImg('output.jpeg')
+
 
     # misc
     def getMosaicImageHeight(self, img, keepAspectRatioCheckBox, mosaicWidth, mosaicHeight):
