@@ -1,5 +1,4 @@
 import math
-import os
 
 import cv2
 import numpy as np
@@ -47,7 +46,7 @@ def quadsize_centered_on_point(img, size, center):
     height, width, channels = img.shape
 
     if width > height:
-        w_start = int(center[0] - (height/2))
+        w_start = int(center[0] - (height / 2))
         if w_start < 0:
             w_start = 0
 
@@ -58,7 +57,7 @@ def quadsize_centered_on_point(img, size, center):
 
         cropped_image = img[:, w_start:w_end]
     else:
-        h_start = int(center[1] - (width/2))
+        h_start = int(center[1] - (width / 2))
         if h_start < 0:
             h_start = 0
 
@@ -89,8 +88,7 @@ def getColorDifference(color1, color2):
             int(color1[2]) - int(color2[2])) ** 2)
 
 
-#  Erstellt das MosAIc
-def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar):
+def getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar):
     ids = allColorValuesWithIDs[:, 0]
     colorValues = allColorValuesWithIDs[:, 1:]
     height, width, channels = originImg.shape
@@ -119,13 +117,20 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
         else:
             id_matrix = np.vstack([id_matrix, id_matrix_row])
 
-    croppedImagesWithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), elementSize).fetchall())
+    return id_matrix
+
+
+#  Erstellt das MosAIc
+def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar):
+    id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
+    croppedImagesWithIDs = np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), elementSize))
+    progressBarValue = progressBar.value()
 
     mosaic_img = []
     for id_matrix_row in id_matrix:
         mosaic_row = []
         for id in id_matrix_row:
-            img_to_append = db.decode(croppedImagesWithIDs[croppedImagesWithIDs[:, 0].astype(int) == id, 1])
+            img_to_append = croppedImagesWithIDs[croppedImagesWithIDs[:, 0].astype(int) == id, 1][0]
             mosaic_row.append(img_to_append)
             progressBarValue += 1
             progressBar.setValue(progressBarValue)
@@ -133,3 +138,89 @@ def createMosaic(originImg, allColorValuesWithIDs, elementSize, db, progressBar)
         mosaic_img.append(np.concatenate(mosaic_row, axis=1))
 
     return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
+
+
+#  Erstellt das DetailMosAIc
+def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, allowed_deviation, db, progressBar,
+                       useEdgeDetection):
+    if useEdgeDetection:
+        edges = getEdges(originImg)
+    else:
+        edges = np.full((originImg.shape[0], originImg.shape[1]), 0)
+
+    id_matrix = getMosaicElementIDs(originImg, allColorValuesWithIDs, progressBar)
+    croppedImagesWithIDs = []
+
+    for i in range(int(math.log2(maxSize / minSize)) + 1):
+        croppedImagesWithIDs.append(
+            np.array(db.getCroppedImagesWithIDByID(np.append(np.unique(id_matrix), [3012], 0), minSize * (2 ** i))))
+
+    progressBarValue = progressBar.value()
+
+    id_matrix = np.expand_dims(id_matrix, axis=2)
+    new_dim = np.full((len(id_matrix), len(id_matrix[0]), 1), minSize)  # size
+    id_matrix = np.append(id_matrix, new_dim, axis=2)
+    new_dim2 = np.full((len(id_matrix), len(id_matrix[0]), 1), 0)  # x/y value
+    id_matrix = np.append(id_matrix, new_dim2, axis=2)
+    id_matrix = np.append(id_matrix, new_dim2, axis=2)
+
+    combineImages(id_matrix, maxSize, minSize, allowed_deviation, edges)
+
+    mosaic_img = []
+    for id_matrix_row in id_matrix:
+        mosaic_row = []
+        for id, size, y, x in id_matrix_row:
+            croppedImagesToUse = croppedImagesWithIDs[int(math.log2(size / minSize))]
+            img_to_append = croppedImagesToUse[croppedImagesToUse[:, 0].astype(int) == id, 1][0]
+            y = int(y)
+            x = int(x)
+            img_to_append = img_to_append[y:(y + minSize), x:(x + minSize), ]
+            mosaic_row.append(img_to_append)
+            progressBarValue += 1
+            progressBar.setValue(progressBarValue)
+            QApplication.processEvents()
+        mosaic_img.append(np.concatenate(mosaic_row, axis=1))
+
+    return cv2.cvtColor(np.concatenate(mosaic_img, axis=0), cv2.COLOR_BGR2RGB)
+
+
+def combineImages(id_matrix, img_size, min_img_size, allowed_deviation, edges):
+    for row_idx, id_matrix_row in enumerate(id_matrix):
+        for col_idx, [id, size, y, x] in enumerate(id_matrix_row):
+            if row_idx + img_size / min_img_size > len(id_matrix) \
+                    or col_idx + img_size / min_img_size > len(id_matrix_row):
+                continue
+
+            combinable, most_used_img_id = checkForCombinableImages(id_matrix, row_idx, col_idx, img_size, min_img_size, edges, allowed_deviation)
+            if not combinable:
+                continue
+
+
+            for y in range(int(img_size / min_img_size)):
+                for x in range(int(img_size / min_img_size)):
+                    id_matrix[row_idx + y, col_idx + x, 0] = most_used_img_id
+                    id_matrix[row_idx + y, col_idx + x, 1] = img_size
+                    id_matrix[row_idx + y, col_idx + x, 2] = y * min_img_size
+                    id_matrix[row_idx + y, col_idx + x, 3] = x * min_img_size
+
+    if (img_size / 2) > min_img_size:
+        combineImages(id_matrix, int(img_size / 2), min_img_size, allowed_deviation, edges)
+
+
+def checkForCombinableImages(id_matrix, row, col, img_size, min_img_size, edges, allowed_deviation):
+    dict = {}
+    for r in range(int(img_size / min_img_size)):
+        for c in range(int(img_size / min_img_size)):
+            if id_matrix[row + r, col + c, 1] != min_img_size:
+                return False, -1
+            if edges[row + r, col + c] != 0:
+                return False, -1
+
+            id = id_matrix[row + r, col + c, 0]
+            dict[id] = dict.get(id, 0) + 1
+
+    amount_of_small_imgs = int(img_size ** 2 / min_img_size ** 2)
+    return amount_of_small_imgs - max(dict.values()) <= allowed_deviation * amount_of_small_imgs, max(dict, key=dict.get)
+
+def getEdges(img):
+    return cv2.Canny(img.astype(np.uint8), 100, 250)
