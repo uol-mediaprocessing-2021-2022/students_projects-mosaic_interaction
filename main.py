@@ -10,5 +10,6 @@ os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 app = QApplication(sys.argv)
 win = Window()
 win.show()
+win.postInit()
 
 sys.exit(app.exec())

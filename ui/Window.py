@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 
 from Database import Database
@@ -63,7 +64,12 @@ class Window(QMainWindow, Ui_MainWindow):
         # misc
         self.db = Database()
 
+    def postInit(self):
+        QApplication.processEvents()
+        QApplication.setOverrideCursor(Qt.WaitCursor)
         self.showImageLibrary()
+        QApplication.restoreOverrideCursor()
+
 
     # tab-buttons
     def bibTabBtnListiner(self):
@@ -132,15 +138,30 @@ class Window(QMainWindow, Ui_MainWindow):
         self.mosaicProgressBar.setValue(0)
         self.mosaicProgressBar.setVisible(True)
         img = rgbImport(self.mosaicImageLineEdit.text())
-        img = destroyImg(img,
-                         int(self.mosaicWidthLineEdit.text()),
-                         self.getMosaicImageHeight(img,
-                                                   self.detailMosaicKeepAspectRatioCheckBox,
-                                                   int(self.mosaicWidthLineEdit.text()),
-                                                   int(self.mosaicHeightLineEdit.text())))
-        result = createMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+        mosaicWidth = int(self.mosaicWidthLineEdit.text())
+        mosaicHeight = self.getMosaicImageHeight(img,
+                                  self.mosaicKeepAspectRatioCheckBox,
+                                  mosaicWidth,
+                                  int(self.mosaicHeightLineEdit.text()))
+        transparency = self.mosaicTransparencySlider.value()
+        if transparency == 100:
+            elemSize = int(self.mosaicElementSizeComboBox.currentText())
+            img = cv2.resize(img, (mosaicWidth * elemSize, mosaicHeight * elemSize))
+            cv2.imwrite('output.jpeg', cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            self.mosaicProgressBar.setVisible(False)
+            self.showImg('output.jpeg')
+            return
+
+        destroyedImg = destroyImg(img,
+                                  mosaicWidth,
+                                  mosaicHeight)
+        result = createMosaic(destroyedImg, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
                               int(self.mosaicElementSizeComboBox.currentText()),
                               self.db, self.mosaicProgressBar)
+
+        if transparency > 0:
+            result = addOriginalPicture(result, img, transparency)
+
         cv2.imwrite('output.jpeg', result)
         self.mosaicProgressBar.setVisible(False)
         self.showImg('output.jpeg')
@@ -154,18 +175,35 @@ class Window(QMainWindow, Ui_MainWindow):
         self.detailMosaicProgressBar.setValue(0)
         self.detailMosaicProgressBar.setVisible(True)
         img = rgbImport(self.detailMosaicImageLineEdit.text())
+        mosaicWidth = int(self.detailMosaicWidthLineEdit.text())
+        mosaicHeight = self.getMosaicImageHeight(img,
+                                  self.detailMosaicKeepAspectRatioCheckBox,
+                                  mosaicWidth,
+                                  int(self.detailMosaicHeightLineEdit.text()))
+
+        transparency = self.detailMosaicTransparencySlider.value()
+        if transparency == 100:
+            elemSize = int(self.detailMosaicElementMinSizeComboBox.currentText())
+            img = cv2.resize(img, (mosaicWidth * elemSize, mosaicHeight * elemSize))
+            img = cv2.resize(img, (mosaicWidth, mosaicHeight))
+            cv2.imwrite('output.jpeg', cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            self.detailMosaicProgressBar.setVisible(False)
+            self.showImg('output.jpeg')
+            return
+
         img = destroyImg(img,
-                         int(self.detailMosaicWidthLineEdit.text()),
-                         self.getMosaicImageHeight(img,
-                                                   self.detailMosaicKeepAspectRatioCheckBox,
-                                                   int(self.detailMosaicWidthLineEdit.text()),
-                                                   int(self.detailMosaicHeightLineEdit.text())))
+                         mosaicWidth,
+                         mosaicHeight)
         result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
                                     int(self.detailMosaicElementMinSizeComboBox.currentText()),
                                     int(self.detailMosaicElementMaxSizeComboBox.currentText()),
                                     float(int(self.detailMosaicElementAllowedDeviationLineEdit.text()) / 100),
                                     self.db, self.detailMosaicProgressBar,
                                     self.detailMosaicUseEdgedetectionCheckBox.isChecked())
+
+        if transparency > 0:
+            result = addOriginalPicture(result, img, transparency)
+
         cv2.imwrite('output.jpeg', result)
         self.detailMosaicProgressBar.setVisible(False)
         self.showImg('output.jpeg')
@@ -181,7 +219,6 @@ class Window(QMainWindow, Ui_MainWindow):
         result = getEdges(img)
         cv2.imwrite('output.jpeg', result)
         self.showImg('output.jpeg')
-
 
     # misc
     def getMosaicImageHeight(self, img, keepAspectRatioCheckBox, mosaicWidth, mosaicHeight):
