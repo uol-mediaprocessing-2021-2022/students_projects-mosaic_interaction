@@ -1,3 +1,5 @@
-/output.jpeg
+*.jpeg
+*.jpg
+*.png
 /mosaic.db
 /ffmpeg.exe
