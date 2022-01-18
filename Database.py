@@ -90,11 +90,6 @@ class Database:
             allImagesDecoded.append([img[0], self.decode(img[1])])
         return allImagesDecoded
 
-    def getAllOriginalImages(self):
-        cursor = self.newCursor()
-        cursor.execute('''SELECT img_original FROM image''')
-        return cursor
-
     def getAllColorValuesWithIDs(self):
         cursor = self.newCursor()
         cursor.execute('''SELECT image_id, color_r, color_g, color_b FROM image''')

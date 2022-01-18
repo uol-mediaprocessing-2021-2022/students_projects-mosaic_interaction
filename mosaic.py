@@ -152,8 +152,7 @@ def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, allow
     croppedImagesWithIDs = []
 
     for i in range(int(math.log2(maxSize / minSize)) + 1):
-        croppedImagesWithIDs.append(
-            np.array(db.getCroppedImagesWithIDByID(np.append(np.unique(id_matrix), [3012], 0), minSize * (2 ** i))))
+        croppedImagesWithIDs.append(np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), minSize * (2 ** i))))
 
     progressBarValue = progressBar.value()
 
@@ -191,10 +190,10 @@ def combineImages(id_matrix, img_size, min_img_size, allowed_deviation, edges):
                     or col_idx + img_size / min_img_size > len(id_matrix_row):
                 continue
 
-            combinable, most_used_img_id = checkForCombinableImages(id_matrix, row_idx, col_idx, img_size, min_img_size, edges, allowed_deviation)
+            combinable, most_used_img_id = checkForCombinableImages(id_matrix, row_idx, col_idx, img_size, min_img_size,
+                                                                    edges, allowed_deviation)
             if not combinable:
                 continue
-
 
             for y in range(int(img_size / min_img_size)):
                 for x in range(int(img_size / min_img_size)):
@@ -220,7 +219,23 @@ def checkForCombinableImages(id_matrix, row, col, img_size, min_img_size, edges,
             dict[id] = dict.get(id, 0) + 1
 
     amount_of_small_imgs = int(img_size ** 2 / min_img_size ** 2)
-    return amount_of_small_imgs - max(dict.values()) <= allowed_deviation * amount_of_small_imgs, max(dict, key=dict.get)
+    return amount_of_small_imgs - max(dict.values()) <= allowed_deviation * amount_of_small_imgs, max(dict,
+                                                                                                      key=dict.get)
+
 
 def getEdges(img):
     return cv2.Canny(img.astype(np.uint8), 100, 250)
+
+
+def addOriginalPicture(mosaic, img, percentage):
+    height, width, channels = mosaic.shape
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.resize(img, (width, height))
+
+    img = img.astype(float)
+    mosaic = mosaic.astype(float)
+
+    alpha = np.full_like(img, (percentage / 100))
+    img = cv2.multiply(alpha, img)
+    mosaic = cv2.multiply(1 - alpha, mosaic)
+    return cv2.add(mosaic, img)
