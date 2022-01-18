@@ -152,8 +152,7 @@ def createDetailMosaic(originImg, allColorValuesWithIDs, minSize, maxSize, allow
     croppedImagesWithIDs = []
 
     for i in range(int(math.log2(maxSize / minSize)) + 1):
-        croppedImagesWithIDs.append(
-            np.array(db.getCroppedImagesWithIDByID(np.append(np.unique(id_matrix), [3012], 0), minSize * (2 ** i))))
+        croppedImagesWithIDs.append(np.array(db.getCroppedImagesWithIDByID(np.unique(id_matrix), minSize * (2 ** i))))
 
     progressBarValue = progressBar.value()
 
