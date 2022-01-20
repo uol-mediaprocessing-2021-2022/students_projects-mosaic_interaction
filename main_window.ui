@@ -871,7 +871,7 @@ QCheckBox::indicator:checked{
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>200</y>
+           <y>250</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -913,7 +913,7 @@ QCheckBox::indicator:checked{
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>230</y>
+           <y>280</y>
            <width>81</width>
            <height>21</height>
           </rect>
@@ -934,7 +934,7 @@ QCheckBox::indicator:checked{
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>230</y>
+           <y>280</y>
            <width>53</width>
            <height>22</height>
           </rect>
@@ -985,7 +985,7 @@ QCheckBox::indicator:checked{
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>170</y>
+           <y>220</y>
            <width>81</width>
            <height>21</height>
           </rect>
@@ -999,14 +999,14 @@ QCheckBox::indicator:checked{
           <string notr="true">color: rgb(255,255,255);</string>
          </property>
          <property name="text">
-          <string>Original-Bild:</string>
+          <string>Transparenz:</string>
          </property>
         </widget>
         <widget class="QSlider" name="mosaicTransparencySlider">
          <property name="geometry">
           <rect>
            <x>150</x>
-           <y>170</y>
+           <y>220</y>
            <width>160</width>
            <height>21</height>
           </rect>
@@ -1024,6 +1024,216 @@ QSlider:hover {
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="mosaicBlendImageCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Original-Bild überblenden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageEvenRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>einheitlich</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageRightRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach rechts</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageLeftRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach links</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageTopRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach oben</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageDownRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach unten</string>
          </property>
         </widget>
        </widget>
@@ -1312,7 +1522,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>230</y>
+           <y>280</y>
            <width>53</width>
            <height>22</height>
           </rect>
@@ -1363,7 +1573,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>200</y>
+           <y>250</y>
            <width>120</width>
            <height>21</height>
           </rect>
@@ -1384,7 +1594,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>230</y>
+           <y>280</y>
            <width>100</width>
            <height>21</height>
           </rect>
@@ -1405,7 +1615,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>260</y>
+           <y>310</y>
            <width>53</width>
            <height>22</height>
           </rect>
@@ -1459,7 +1669,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>260</y>
+           <y>310</y>
            <width>100</width>
            <height>21</height>
           </rect>
@@ -1480,7 +1690,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>290</y>
+           <y>340</y>
            <width>100</width>
            <height>21</height>
           </rect>
@@ -1501,7 +1711,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>290</y>
+           <y>340</y>
            <width>31</width>
            <height>21</height>
           </rect>
@@ -1551,7 +1761,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>320</y>
+           <y>370</y>
            <width>201</width>
            <height>21</height>
           </rect>
@@ -1588,7 +1798,7 @@ QCheckBox::indicator:checked{
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>350</y>
+           <y>400</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -1632,7 +1842,7 @@ QPushButton:pressed {
          <property name="geometry">
           <rect>
            <x>150</x>
-           <y>170</y>
+           <y>220</y>
            <width>160</width>
            <height>21</height>
           </rect>
@@ -1656,7 +1866,7 @@ QSlider:hover {
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>170</y>
+           <y>220</y>
            <width>81</width>
            <height>21</height>
           </rect>
@@ -1670,7 +1880,217 @@ QSlider:hover {
           <string notr="true">color: rgb(255,255,255);</string>
          </property>
          <property name="text">
-          <string>Original-Bild:</string>
+          <string>Transparenz:</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageRightRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach rechts</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageTopRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach oben</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageLeftRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach links</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageEvenRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>einheitlich</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="detailMosaicBlendImageCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Original-Bild überblenden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageDownRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach unten</string>
          </property>
         </widget>
         <zorder>detailMosaicElementAllowedDeviationPercentageLabel</zorder>
@@ -1695,6 +2115,12 @@ QSlider:hover {
         <zorder>detailMosaicShowEdgesButton</zorder>
         <zorder>detailMosaicTransparencySlider</zorder>
         <zorder>detailMosaicTransparencyLabel</zorder>
+        <zorder>detailMosaicBlendImageRightRadioButton</zorder>
+        <zorder>detailMosaicBlendImageTopRadioButton</zorder>
+        <zorder>detailMosaicBlendImageLeftRadioButton</zorder>
+        <zorder>detailMosaicBlendImageEvenRadioButton</zorder>
+        <zorder>detailMosaicBlendImageCheckBox</zorder>
+        <zorder>detailMosaicBlendImageDownRadioButton</zorder>
        </widget>
       </widget>
      </item>

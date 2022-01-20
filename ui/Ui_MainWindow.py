@@ -406,7 +406,7 @@ class Ui_MainWindow(object):
         self.mosaicKeepAspectRatioCheckBox.setChecked(True)
         self.mosaicKeepAspectRatioCheckBox.setObjectName("mosaicKeepAspectRatioCheckBox")
         self.mosaicElementLabel = QtWidgets.QLabel(self.mosaicPage)
-        self.mosaicElementLabel.setGeometry(QtCore.QRect(40, 200, 101, 21))
+        self.mosaicElementLabel.setGeometry(QtCore.QRect(40, 250, 101, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.mosaicElementLabel.setFont(font)
@@ -420,14 +420,14 @@ class Ui_MainWindow(object):
         self.mosaicImageLabel.setStyleSheet("color: rgb(255,255,255);")
         self.mosaicImageLabel.setObjectName("mosaicImageLabel")
         self.mosaicElementSizeLabel = QtWidgets.QLabel(self.mosaicPage)
-        self.mosaicElementSizeLabel.setGeometry(QtCore.QRect(60, 230, 81, 21))
+        self.mosaicElementSizeLabel.setGeometry(QtCore.QRect(60, 280, 81, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.mosaicElementSizeLabel.setFont(font)
         self.mosaicElementSizeLabel.setStyleSheet("color: rgb(255,255,255);")
         self.mosaicElementSizeLabel.setObjectName("mosaicElementSizeLabel")
         self.mosaicElementSizeComboBox = QtWidgets.QComboBox(self.mosaicPage)
-        self.mosaicElementSizeComboBox.setGeometry(QtCore.QRect(160, 230, 53, 22))
+        self.mosaicElementSizeComboBox.setGeometry(QtCore.QRect(160, 280, 53, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.mosaicElementSizeComboBox.setFont(font)
@@ -445,14 +445,14 @@ class Ui_MainWindow(object):
         self.mosaicElementSizeComboBox.addItem("")
         self.mosaicElementSizeComboBox.addItem("")
         self.mosaicTransparencyLabel = QtWidgets.QLabel(self.mosaicPage)
-        self.mosaicTransparencyLabel.setGeometry(QtCore.QRect(60, 170, 81, 21))
+        self.mosaicTransparencyLabel.setGeometry(QtCore.QRect(60, 220, 81, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.mosaicTransparencyLabel.setFont(font)
         self.mosaicTransparencyLabel.setStyleSheet("color: rgb(255,255,255);")
         self.mosaicTransparencyLabel.setObjectName("mosaicTransparencyLabel")
         self.mosaicTransparencySlider = QtWidgets.QSlider(self.mosaicPage)
-        self.mosaicTransparencySlider.setGeometry(QtCore.QRect(150, 170, 160, 21))
+        self.mosaicTransparencySlider.setGeometry(QtCore.QRect(150, 220, 160, 21))
         self.mosaicTransparencySlider.setStyleSheet("QSlider {\n"
 "    color: rgb(75,166,255);\n"
 "}\n"
@@ -462,6 +462,128 @@ class Ui_MainWindow(object):
         self.mosaicTransparencySlider.setMaximum(100)
         self.mosaicTransparencySlider.setOrientation(QtCore.Qt.Horizontal)
         self.mosaicTransparencySlider.setObjectName("mosaicTransparencySlider")
+        self.mosaicBlendImageCheckBox = QtWidgets.QCheckBox(self.mosaicPage)
+        self.mosaicBlendImageCheckBox.setGeometry(QtCore.QRect(60, 170, 201, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageCheckBox.setFont(font)
+        self.mosaicBlendImageCheckBox.setStyleSheet("QCheckBox{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QCheckBox::indicator:unchecked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageCheckBox.setChecked(False)
+        self.mosaicBlendImageCheckBox.setObjectName("mosaicBlendImageCheckBox")
+        self.mosaicBlendImageEvenRadioButton = QtWidgets.QRadioButton(self.mosaicPage)
+        self.mosaicBlendImageEvenRadioButton.setGeometry(QtCore.QRect(60, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageEvenRadioButton.setFont(font)
+        self.mosaicBlendImageEvenRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageEvenRadioButton.setChecked(True)
+        self.mosaicBlendImageEvenRadioButton.setObjectName("mosaicBlendImageEvenRadioButton")
+        self.mosaicBlendImageRightRadioButton = QtWidgets.QRadioButton(self.mosaicPage)
+        self.mosaicBlendImageRightRadioButton.setGeometry(QtCore.QRect(140, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageRightRadioButton.setFont(font)
+        self.mosaicBlendImageRightRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageRightRadioButton.setObjectName("mosaicBlendImageRightRadioButton")
+        self.mosaicBlendImageLeftRadioButton = QtWidgets.QRadioButton(self.mosaicPage)
+        self.mosaicBlendImageLeftRadioButton.setGeometry(QtCore.QRect(220, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageLeftRadioButton.setFont(font)
+        self.mosaicBlendImageLeftRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageLeftRadioButton.setObjectName("mosaicBlendImageLeftRadioButton")
+        self.mosaicBlendImageTopRadioButton = QtWidgets.QRadioButton(self.mosaicPage)
+        self.mosaicBlendImageTopRadioButton.setGeometry(QtCore.QRect(380, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageTopRadioButton.setFont(font)
+        self.mosaicBlendImageTopRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageTopRadioButton.setObjectName("mosaicBlendImageTopRadioButton")
+        self.mosaicBlendImageDownRadioButton = QtWidgets.QRadioButton(self.mosaicPage)
+        self.mosaicBlendImageDownRadioButton.setGeometry(QtCore.QRect(300, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.mosaicBlendImageDownRadioButton.setFont(font)
+        self.mosaicBlendImageDownRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.mosaicBlendImageDownRadioButton.setObjectName("mosaicBlendImageDownRadioButton")
         self.stackedWidget.addWidget(self.mosaicPage)
         self.detailMosaicPage = QtWidgets.QWidget()
         self.detailMosaicPage.setObjectName("detailMosaicPage")
@@ -589,7 +711,7 @@ class Ui_MainWindow(object):
         self.detailMosaicButton.setDefault(True)
         self.detailMosaicButton.setObjectName("detailMosaicButton")
         self.detailMosaicElementMinSizeComboBox = QtWidgets.QComboBox(self.detailMosaicPage)
-        self.detailMosaicElementMinSizeComboBox.setGeometry(QtCore.QRect(160, 230, 53, 22))
+        self.detailMosaicElementMinSizeComboBox.setGeometry(QtCore.QRect(160, 280, 53, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementMinSizeComboBox.setFont(font)
@@ -607,21 +729,21 @@ class Ui_MainWindow(object):
         self.detailMosaicElementMinSizeComboBox.addItem("")
         self.detailMosaicElementMinSizeComboBox.addItem("")
         self.detailMosaicElementLabel = QtWidgets.QLabel(self.detailMosaicPage)
-        self.detailMosaicElementLabel.setGeometry(QtCore.QRect(40, 200, 120, 21))
+        self.detailMosaicElementLabel.setGeometry(QtCore.QRect(40, 250, 120, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementLabel.setFont(font)
         self.detailMosaicElementLabel.setStyleSheet("color: rgb(255,255,255);")
         self.detailMosaicElementLabel.setObjectName("detailMosaicElementLabel")
         self.detailMosaicElementMinSizeLabel = QtWidgets.QLabel(self.detailMosaicPage)
-        self.detailMosaicElementMinSizeLabel.setGeometry(QtCore.QRect(60, 230, 100, 21))
+        self.detailMosaicElementMinSizeLabel.setGeometry(QtCore.QRect(60, 280, 100, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementMinSizeLabel.setFont(font)
         self.detailMosaicElementMinSizeLabel.setStyleSheet("color: rgb(255,255,255);")
         self.detailMosaicElementMinSizeLabel.setObjectName("detailMosaicElementMinSizeLabel")
         self.detailMosaicElementMaxSizeComboBox = QtWidgets.QComboBox(self.detailMosaicPage)
-        self.detailMosaicElementMaxSizeComboBox.setGeometry(QtCore.QRect(160, 260, 53, 22))
+        self.detailMosaicElementMaxSizeComboBox.setGeometry(QtCore.QRect(160, 310, 53, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementMaxSizeComboBox.setFont(font)
@@ -639,21 +761,21 @@ class Ui_MainWindow(object):
         self.detailMosaicElementMaxSizeComboBox.addItem("")
         self.detailMosaicElementMaxSizeComboBox.addItem("")
         self.detailMosaicElementMaxSizeLabel = QtWidgets.QLabel(self.detailMosaicPage)
-        self.detailMosaicElementMaxSizeLabel.setGeometry(QtCore.QRect(60, 260, 100, 21))
+        self.detailMosaicElementMaxSizeLabel.setGeometry(QtCore.QRect(60, 310, 100, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementMaxSizeLabel.setFont(font)
         self.detailMosaicElementMaxSizeLabel.setStyleSheet("color: rgb(255,255,255);")
         self.detailMosaicElementMaxSizeLabel.setObjectName("detailMosaicElementMaxSizeLabel")
         self.detailMosaicElementAllowedDeviationLabel = QtWidgets.QLabel(self.detailMosaicPage)
-        self.detailMosaicElementAllowedDeviationLabel.setGeometry(QtCore.QRect(60, 290, 100, 21))
+        self.detailMosaicElementAllowedDeviationLabel.setGeometry(QtCore.QRect(60, 340, 100, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementAllowedDeviationLabel.setFont(font)
         self.detailMosaicElementAllowedDeviationLabel.setStyleSheet("color: rgb(255,255,255);")
         self.detailMosaicElementAllowedDeviationLabel.setObjectName("detailMosaicElementAllowedDeviationLabel")
         self.detailMosaicElementAllowedDeviationLineEdit = QtWidgets.QLineEdit(self.detailMosaicPage)
-        self.detailMosaicElementAllowedDeviationLineEdit.setGeometry(QtCore.QRect(160, 290, 31, 21))
+        self.detailMosaicElementAllowedDeviationLineEdit.setGeometry(QtCore.QRect(160, 340, 31, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicElementAllowedDeviationLineEdit.setFont(font)
@@ -673,7 +795,7 @@ class Ui_MainWindow(object):
         self.detailMosaicElementAllowedDeviationPercentageLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.detailMosaicElementAllowedDeviationPercentageLabel.setObjectName("detailMosaicElementAllowedDeviationPercentageLabel")
         self.detailMosaicUseEdgedetectionCheckBox = QtWidgets.QCheckBox(self.detailMosaicPage)
-        self.detailMosaicUseEdgedetectionCheckBox.setGeometry(QtCore.QRect(60, 320, 201, 21))
+        self.detailMosaicUseEdgedetectionCheckBox.setGeometry(QtCore.QRect(60, 370, 201, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicUseEdgedetectionCheckBox.setFont(font)
@@ -694,7 +816,7 @@ class Ui_MainWindow(object):
         self.detailMosaicUseEdgedetectionCheckBox.setChecked(True)
         self.detailMosaicUseEdgedetectionCheckBox.setObjectName("detailMosaicUseEdgedetectionCheckBox")
         self.detailMosaicShowEdgesButton = QtWidgets.QPushButton(self.detailMosaicPage)
-        self.detailMosaicShowEdgesButton.setGeometry(QtCore.QRect(60, 350, 91, 20))
+        self.detailMosaicShowEdgesButton.setGeometry(QtCore.QRect(60, 400, 91, 20))
         self.detailMosaicShowEdgesButton.setMinimumSize(QtCore.QSize(81, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -715,7 +837,7 @@ class Ui_MainWindow(object):
         self.detailMosaicShowEdgesButton.setDefault(True)
         self.detailMosaicShowEdgesButton.setObjectName("detailMosaicShowEdgesButton")
         self.detailMosaicTransparencySlider = QtWidgets.QSlider(self.detailMosaicPage)
-        self.detailMosaicTransparencySlider.setGeometry(QtCore.QRect(150, 170, 160, 21))
+        self.detailMosaicTransparencySlider.setGeometry(QtCore.QRect(150, 220, 160, 21))
         self.detailMosaicTransparencySlider.setStyleSheet("QSlider {\n"
 "    color: rgb(75,166,255);\n"
 "}\n"
@@ -726,12 +848,134 @@ class Ui_MainWindow(object):
         self.detailMosaicTransparencySlider.setOrientation(QtCore.Qt.Horizontal)
         self.detailMosaicTransparencySlider.setObjectName("detailMosaicTransparencySlider")
         self.detailMosaicTransparencyLabel = QtWidgets.QLabel(self.detailMosaicPage)
-        self.detailMosaicTransparencyLabel.setGeometry(QtCore.QRect(60, 170, 81, 21))
+        self.detailMosaicTransparencyLabel.setGeometry(QtCore.QRect(60, 220, 81, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.detailMosaicTransparencyLabel.setFont(font)
         self.detailMosaicTransparencyLabel.setStyleSheet("color: rgb(255,255,255);")
         self.detailMosaicTransparencyLabel.setObjectName("detailMosaicTransparencyLabel")
+        self.detailMosaicBlendImageRightRadioButton = QtWidgets.QRadioButton(self.detailMosaicPage)
+        self.detailMosaicBlendImageRightRadioButton.setGeometry(QtCore.QRect(140, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageRightRadioButton.setFont(font)
+        self.detailMosaicBlendImageRightRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageRightRadioButton.setObjectName("detailMosaicBlendImageRightRadioButton")
+        self.detailMosaicBlendImageTopRadioButton = QtWidgets.QRadioButton(self.detailMosaicPage)
+        self.detailMosaicBlendImageTopRadioButton.setGeometry(QtCore.QRect(380, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageTopRadioButton.setFont(font)
+        self.detailMosaicBlendImageTopRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageTopRadioButton.setObjectName("detailMosaicBlendImageTopRadioButton")
+        self.detailMosaicBlendImageLeftRadioButton = QtWidgets.QRadioButton(self.detailMosaicPage)
+        self.detailMosaicBlendImageLeftRadioButton.setGeometry(QtCore.QRect(220, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageLeftRadioButton.setFont(font)
+        self.detailMosaicBlendImageLeftRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageLeftRadioButton.setObjectName("detailMosaicBlendImageLeftRadioButton")
+        self.detailMosaicBlendImageEvenRadioButton = QtWidgets.QRadioButton(self.detailMosaicPage)
+        self.detailMosaicBlendImageEvenRadioButton.setGeometry(QtCore.QRect(60, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageEvenRadioButton.setFont(font)
+        self.detailMosaicBlendImageEvenRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageEvenRadioButton.setChecked(True)
+        self.detailMosaicBlendImageEvenRadioButton.setObjectName("detailMosaicBlendImageEvenRadioButton")
+        self.detailMosaicBlendImageCheckBox = QtWidgets.QCheckBox(self.detailMosaicPage)
+        self.detailMosaicBlendImageCheckBox.setGeometry(QtCore.QRect(60, 170, 201, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageCheckBox.setFont(font)
+        self.detailMosaicBlendImageCheckBox.setStyleSheet("QCheckBox{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QCheckBox::indicator:unchecked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked{\n"
+"     border-radius: 2px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageCheckBox.setChecked(False)
+        self.detailMosaicBlendImageCheckBox.setObjectName("detailMosaicBlendImageCheckBox")
+        self.detailMosaicBlendImageDownRadioButton = QtWidgets.QRadioButton(self.detailMosaicPage)
+        self.detailMosaicBlendImageDownRadioButton.setGeometry(QtCore.QRect(300, 200, 80, 14))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.detailMosaicBlendImageDownRadioButton.setFont(font)
+        self.detailMosaicBlendImageDownRadioButton.setStyleSheet("QRadioButton{\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"QRadioButton::indicator:unchecked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(27, 29, 35);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked{\n"
+"     border-radius: 5px;\n"
+"     background-color: rgb(75,166,255);\n"
+"    border: 1px solid rgb(27, 29, 35);\n"
+"}")
+        self.detailMosaicBlendImageDownRadioButton.setObjectName("detailMosaicBlendImageDownRadioButton")
         self.detailMosaicElementAllowedDeviationPercentageLabel.raise_()
         self.detailMosaicButton.raise_()
         self.detailMosaicImageLineEdit.raise_()
@@ -754,6 +998,12 @@ class Ui_MainWindow(object):
         self.detailMosaicShowEdgesButton.raise_()
         self.detailMosaicTransparencySlider.raise_()
         self.detailMosaicTransparencyLabel.raise_()
+        self.detailMosaicBlendImageRightRadioButton.raise_()
+        self.detailMosaicBlendImageTopRadioButton.raise_()
+        self.detailMosaicBlendImageLeftRadioButton.raise_()
+        self.detailMosaicBlendImageEvenRadioButton.raise_()
+        self.detailMosaicBlendImageCheckBox.raise_()
+        self.detailMosaicBlendImageDownRadioButton.raise_()
         self.stackedWidget.addWidget(self.detailMosaicPage)
         self.horizontalLayout.addWidget(self.stackedWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -791,7 +1041,13 @@ class Ui_MainWindow(object):
         self.mosaicElementSizeComboBox.setItemText(2, _translate("MainWindow", "128"))
         self.mosaicElementSizeComboBox.setItemText(3, _translate("MainWindow", "256"))
         self.mosaicElementSizeComboBox.setItemText(4, _translate("MainWindow", "512"))
-        self.mosaicTransparencyLabel.setText(_translate("MainWindow", "Original-Bild:"))
+        self.mosaicTransparencyLabel.setText(_translate("MainWindow", "Transparenz:"))
+        self.mosaicBlendImageCheckBox.setText(_translate("MainWindow", "Original-Bild überblenden"))
+        self.mosaicBlendImageEvenRadioButton.setText(_translate("MainWindow", "einheitlich"))
+        self.mosaicBlendImageRightRadioButton.setText(_translate("MainWindow", "nach rechts"))
+        self.mosaicBlendImageLeftRadioButton.setText(_translate("MainWindow", "nach links"))
+        self.mosaicBlendImageTopRadioButton.setText(_translate("MainWindow", "nach oben"))
+        self.mosaicBlendImageDownRadioButton.setText(_translate("MainWindow", "nach unten"))
         self.detailMosaicImageLineEdit.setText(_translate("MainWindow", "D:\\Projekt\\Uni\\Medienverarbeitung\\res\\input.png"))
         self.detailMosaicWidthLabel.setText(_translate("MainWindow", "Breite:"))
         self.detailMosaicHeightLabel.setText(_translate("MainWindow", "Höhe:"))
@@ -820,5 +1076,11 @@ class Ui_MainWindow(object):
         self.detailMosaicElementAllowedDeviationPercentageLabel.setText(_translate("MainWindow", "%"))
         self.detailMosaicUseEdgedetectionCheckBox.setText(_translate("MainWindow", "Kantenerkennung nutzen"))
         self.detailMosaicShowEdgesButton.setText(_translate("MainWindow", "Kanten anzeigen"))
-        self.detailMosaicTransparencyLabel.setText(_translate("MainWindow", "Original-Bild:"))
+        self.detailMosaicTransparencyLabel.setText(_translate("MainWindow", "Transparenz:"))
+        self.detailMosaicBlendImageRightRadioButton.setText(_translate("MainWindow", "nach rechts"))
+        self.detailMosaicBlendImageTopRadioButton.setText(_translate("MainWindow", "nach oben"))
+        self.detailMosaicBlendImageLeftRadioButton.setText(_translate("MainWindow", "nach links"))
+        self.detailMosaicBlendImageEvenRadioButton.setText(_translate("MainWindow", "einheitlich"))
+        self.detailMosaicBlendImageCheckBox.setText(_translate("MainWindow", "Original-Bild überblenden"))
+        self.detailMosaicBlendImageDownRadioButton.setText(_translate("MainWindow", "nach unten"))
 

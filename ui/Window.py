@@ -45,6 +45,24 @@ class Window(QMainWindow, Ui_MainWindow):
         self.mosaicHeightLineEdit.setVisible(not self.mosaicKeepAspectRatioCheckBox.isChecked())
         self.mosaicHeightLabel.setVisible(not self.mosaicKeepAspectRatioCheckBox.isChecked())
 
+        self.mosaicBlendImageCheckBox.clicked.connect(self.mosaicBlendImageCheckBoxBtnListiner)
+        self.mosaicBlendImageEvenRadioButton.clicked.connect(self.mosaicBlendImageRadioButtonBtnListiner)
+        self.mosaicBlendImageRightRadioButton.clicked.connect(self.mosaicBlendImageRadioButtonBtnListiner)
+        self.mosaicBlendImageLeftRadioButton.clicked.connect(self.mosaicBlendImageRadioButtonBtnListiner)
+        self.mosaicBlendImageDownRadioButton.clicked.connect(self.mosaicBlendImageRadioButtonBtnListiner)
+        self.mosaicBlendImageTopRadioButton.clicked.connect(self.mosaicBlendImageRadioButtonBtnListiner)
+
+        self.mosaicBlendImageEvenRadioButton.setVisible(self.mosaicBlendImageCheckBox.isChecked())
+        self.mosaicBlendImageRightRadioButton.setVisible(self.mosaicBlendImageCheckBox.isChecked())
+        self.mosaicBlendImageLeftRadioButton.setVisible(self.mosaicBlendImageCheckBox.isChecked())
+        self.mosaicBlendImageDownRadioButton.setVisible(self.mosaicBlendImageCheckBox.isChecked())
+        self.mosaicBlendImageTopRadioButton.setVisible(self.mosaicBlendImageCheckBox.isChecked())
+
+        self.mosaicTransparencyLabel.setVisible(
+            self.mosaicBlendImageCheckBox.isChecked() and self.mosaicBlendImageEvenRadioButton.isChecked())
+        self.mosaicTransparencySlider.setVisible(
+            self.mosaicBlendImageCheckBox.isChecked() and self.mosaicBlendImageEvenRadioButton.isChecked())
+
         self.mosaicProgressBar.setVisible(False)
 
         # detailMosaic-page
@@ -55,6 +73,24 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.detailMosaicHeightLineEdit.setVisible(not self.detailMosaicKeepAspectRatioCheckBox.isChecked())
         self.detailMosaicHeightLabel.setVisible(not self.detailMosaicKeepAspectRatioCheckBox.isChecked())
+
+        self.detailMosaicBlendImageCheckBox.clicked.connect(self.detailMosaicBlendImageCheckBoxBtnListiner)
+        self.detailMosaicBlendImageEvenRadioButton.clicked.connect(self.detailMosaicBlendImageRadioButtonBtnListiner)
+        self.detailMosaicBlendImageRightRadioButton.clicked.connect(self.detailMosaicBlendImageRadioButtonBtnListiner)
+        self.detailMosaicBlendImageLeftRadioButton.clicked.connect(self.detailMosaicBlendImageRadioButtonBtnListiner)
+        self.detailMosaicBlendImageDownRadioButton.clicked.connect(self.detailMosaicBlendImageRadioButtonBtnListiner)
+        self.detailMosaicBlendImageTopRadioButton.clicked.connect(self.detailMosaicBlendImageRadioButtonBtnListiner)
+
+        self.detailMosaicBlendImageEvenRadioButton.setVisible(self.detailMosaicBlendImageCheckBox.isChecked())
+        self.detailMosaicBlendImageRightRadioButton.setVisible(self.detailMosaicBlendImageCheckBox.isChecked())
+        self.detailMosaicBlendImageLeftRadioButton.setVisible(self.detailMosaicBlendImageCheckBox.isChecked())
+        self.detailMosaicBlendImageDownRadioButton.setVisible(self.detailMosaicBlendImageCheckBox.isChecked())
+        self.detailMosaicBlendImageTopRadioButton.setVisible(self.detailMosaicBlendImageCheckBox.isChecked())
+
+        self.detailMosaicTransparencyLabel.setVisible(
+            self.detailMosaicBlendImageCheckBox.isChecked() and self.detailMosaicBlendImageEvenRadioButton.isChecked())
+        self.detailMosaicTransparencySlider.setVisible(
+            self.detailMosaicBlendImageCheckBox.isChecked() and self.detailMosaicBlendImageEvenRadioButton.isChecked())
 
         self.detailMosaicProgressBar.setVisible(False)
 
@@ -69,7 +105,6 @@ class Window(QMainWindow, Ui_MainWindow):
         QApplication.setOverrideCursor(Qt.WaitCursor)
         self.showImageLibrary()
         QApplication.restoreOverrideCursor()
-
 
     # tab-buttons
     def bibTabBtnListiner(self):
@@ -134,17 +169,35 @@ class Window(QMainWindow, Ui_MainWindow):
         self.mosaicHeightLineEdit.setVisible(not checked)
         self.mosaicHeightLabel.setVisible(not checked)
 
+    def mosaicBlendImageCheckBoxBtnListiner(self, checked):
+        self.mosaicBlendImageEvenRadioButton.setVisible(checked)
+        self.mosaicBlendImageRightRadioButton.setVisible(checked)
+        self.mosaicBlendImageLeftRadioButton.setVisible(checked)
+        self.mosaicBlendImageDownRadioButton.setVisible(checked)
+        self.mosaicBlendImageTopRadioButton.setVisible(checked)
+
+        self.mosaicTransparencyLabel.setVisible(checked and self.mosaicBlendImageEvenRadioButton.isChecked())
+        self.mosaicTransparencySlider.setVisible(checked and self.mosaicBlendImageEvenRadioButton.isChecked())
+
+    def mosaicBlendImageRadioButtonBtnListiner(self, checked):
+        self.mosaicTransparencyLabel.setVisible(
+            self.mosaicBlendImageCheckBox.isChecked() and self.mosaicBlendImageEvenRadioButton.isChecked())
+        self.mosaicTransparencySlider.setVisible(
+            self.mosaicBlendImageCheckBox.isChecked() and self.mosaicBlendImageEvenRadioButton.isChecked())
+
     def mosaicBtnListener(self):
         self.mosaicProgressBar.setValue(0)
         self.mosaicProgressBar.setVisible(True)
         img = rgbImport(self.mosaicImageLineEdit.text())
         mosaicWidth = int(self.mosaicWidthLineEdit.text())
         mosaicHeight = self.getMosaicImageHeight(img,
-                                  self.mosaicKeepAspectRatioCheckBox,
-                                  mosaicWidth,
-                                  int(self.mosaicHeightLineEdit.text()))
+                                                 self.mosaicKeepAspectRatioCheckBox,
+                                                 mosaicWidth,
+                                                 int(self.mosaicHeightLineEdit.text()))
         transparency = self.mosaicTransparencySlider.value()
-        if transparency == 100:
+        if self.mosaicBlendImageCheckBox.isChecked() \
+                and self.mosaicBlendImageEvenRadioButton.isChecked() \
+                and transparency == 100:
             elemSize = int(self.mosaicElementSizeComboBox.currentText())
             img = cv2.resize(img, (mosaicWidth * elemSize, mosaicHeight * elemSize))
             cv2.imwrite('output.jpeg', cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
@@ -159,8 +212,14 @@ class Window(QMainWindow, Ui_MainWindow):
                               int(self.mosaicElementSizeComboBox.currentText()),
                               self.db, self.mosaicProgressBar)
 
-        if transparency > 0:
-            result = addOriginalPicture(result, img, transparency)
+        if self.mosaicBlendImageCheckBox.isChecked():
+            if self.mosaicBlendImageEvenRadioButton.isChecked() and transparency > 0:
+                result = addOriginalPicture(result, img, transparency)
+            else:
+                topdown = self.mosaicBlendImageTopRadioButton.isChecked() or self.mosaicBlendImageDownRadioButton.isChecked()
+                inverted = self.mosaicBlendImageTopRadioButton.isChecked() or self.mosaicBlendImageLeftRadioButton.isChecked()
+                result = fadeToOriginalPicture(result, img, topdown, inverted)
+
 
         cv2.imwrite('output.jpeg', result)
         self.mosaicProgressBar.setVisible(False)
@@ -171,38 +230,60 @@ class Window(QMainWindow, Ui_MainWindow):
         self.detailMosaicHeightLineEdit.setVisible(not checked)
         self.detailMosaicHeightLabel.setVisible(not checked)
 
+    def detailMosaicBlendImageCheckBoxBtnListiner(self, checked):
+        self.detailMosaicBlendImageEvenRadioButton.setVisible(checked)
+        self.detailMosaicBlendImageRightRadioButton.setVisible(checked)
+        self.detailMosaicBlendImageLeftRadioButton.setVisible(checked)
+        self.detailMosaicBlendImageDownRadioButton.setVisible(checked)
+        self.detailMosaicBlendImageTopRadioButton.setVisible(checked)
+
+        self.detailMosaicTransparencyLabel.setVisible(checked and self.detailMosaicBlendImageEvenRadioButton.isChecked())
+        self.detailMosaicTransparencySlider.setVisible(checked and self.detailMosaicBlendImageEvenRadioButton.isChecked())
+
+    def detailMosaicBlendImageRadioButtonBtnListiner(self, checked):
+        self.detailMosaicTransparencyLabel.setVisible(
+            self.detailMosaicBlendImageCheckBox.isChecked() and self.detailMosaicBlendImageEvenRadioButton.isChecked())
+        self.detailMosaicTransparencySlider.setVisible(
+            self.detailMosaicBlendImageCheckBox.isChecked() and self.detailMosaicBlendImageEvenRadioButton.isChecked())
+
     def detailMosaicBtnListener(self):
         self.detailMosaicProgressBar.setValue(0)
         self.detailMosaicProgressBar.setVisible(True)
         img = rgbImport(self.detailMosaicImageLineEdit.text())
         mosaicWidth = int(self.detailMosaicWidthLineEdit.text())
         mosaicHeight = self.getMosaicImageHeight(img,
-                                  self.detailMosaicKeepAspectRatioCheckBox,
-                                  mosaicWidth,
-                                  int(self.detailMosaicHeightLineEdit.text()))
+                                                 self.detailMosaicKeepAspectRatioCheckBox,
+                                                 mosaicWidth,
+                                                 int(self.detailMosaicHeightLineEdit.text()))
 
         transparency = self.detailMosaicTransparencySlider.value()
-        if transparency == 100:
+        if self.detailMosaicBlendImageCheckBox.isChecked() \
+                and self.detailMosaicBlendImageEvenRadioButton.isChecked() \
+                and transparency == 100:
             elemSize = int(self.detailMosaicElementMinSizeComboBox.currentText())
             img = cv2.resize(img, (mosaicWidth * elemSize, mosaicHeight * elemSize))
-            img = cv2.resize(img, (mosaicWidth, mosaicHeight))
             cv2.imwrite('output.jpeg', cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
             self.detailMosaicProgressBar.setVisible(False)
             self.showImg('output.jpeg')
             return
 
-        img = destroyImg(img,
+        destroyedImg = destroyImg(img,
                          mosaicWidth,
                          mosaicHeight)
-        result = createDetailMosaic(img, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
+        result = createDetailMosaic(destroyedImg, np.array(self.db.getAllColorValuesWithIDs().fetchall()),
                                     int(self.detailMosaicElementMinSizeComboBox.currentText()),
                                     int(self.detailMosaicElementMaxSizeComboBox.currentText()),
                                     float(int(self.detailMosaicElementAllowedDeviationLineEdit.text()) / 100),
                                     self.db, self.detailMosaicProgressBar,
                                     self.detailMosaicUseEdgedetectionCheckBox.isChecked())
 
-        if transparency > 0:
-            result = addOriginalPicture(result, img, transparency)
+        if self.detailMosaicBlendImageCheckBox.isChecked():
+            if self.detailMosaicBlendImageEvenRadioButton.isChecked() and transparency > 0:
+                result = addOriginalPicture(result, img, transparency)
+            else:
+                topdown = self.detailMosaicBlendImageTopRadioButton.isChecked() or self.detailMosaicBlendImageDownRadioButton.isChecked()
+                inverted = self.detailMosaicBlendImageTopRadioButton.isChecked() or self.detailMosaicBlendImageLeftRadioButton.isChecked()
+                result = fadeToOriginalPicture(result, img, topdown, inverted)
 
         cv2.imwrite('output.jpeg', result)
         self.detailMosaicProgressBar.setVisible(False)

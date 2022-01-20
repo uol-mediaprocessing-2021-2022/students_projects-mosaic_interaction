@@ -228,14 +228,44 @@ def getEdges(img):
 
 
 def addOriginalPicture(mosaic, img, percentage):
+    alpha = np.full_like(mosaic, (percentage / 100), dtype=float)
+    return addTransparentPicture(mosaic, img, alpha)
+
+def fadeToOriginalPicture(mosaic, img, topDown, inverted):
+    height, width, channels = mosaic.shape
+
+    alpha = np.full_like(mosaic, 0)
+    alpha = alpha.astype(float)
+
+    if topDown:
+        a_vect = np.empty(width)
+        a_vect = a_vect.astype(float)
+        for i in range(height):
+            a = i/(height-1)
+            a_vect.fill(a)
+            alpha[i, :] = a
+    else:
+        a_vect = np.empty(height)
+        a_vect = a_vect.astype(float)
+        for i in range(width):
+            a = i/(width-1)
+            a_vect.fill(a)
+            alpha[:, i] = a
+
+    if inverted:
+        inv = np.full_like(mosaic, 1.0)
+        alpha = np.subtract(inv, alpha)
+
+    return addTransparentPicture(mosaic, img, alpha)
+
+def addTransparentPicture(mosaic, img, alpha):
     height, width, channels = mosaic.shape
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (width, height))
 
     img = img.astype(float)
     mosaic = mosaic.astype(float)
-
-    alpha = np.full_like(img, (percentage / 100))
+    alpha = alpha.astype(float)
     img = cv2.multiply(alpha, img)
     mosaic = cv2.multiply(1 - alpha, mosaic)
     return cv2.add(mosaic, img)
