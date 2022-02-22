@@ -118,10 +118,9 @@
            <property name="styleSheet">
             <string notr="true">QPushButton {	
 	border: none;
-/*	text-align: center;*/
 	color: rgb(255,255,255);
 	text-align: left;;
-	padding-left: 50px;
+	padding-left: 20px;
 }
 QPushButton:hover {
 	background-color: rgb(33, 37, 43);
@@ -148,7 +147,7 @@ QPushButton:checked {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="classicTabButton">
+          <widget class="QPushButton" name="mosaicTabButton">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -166,7 +165,7 @@ QPushButton:checked {
 /*	text-align: center;*/
 	color: rgb(255,255,255);
 	text-align: left;;
-	padding-left: 50px;
+	padding-left: 20px;
 }
 QPushButton:hover {
 	background-color: rgb(33, 37, 43);
@@ -190,7 +189,7 @@ QPushButton:checked {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="partialTabButton">
+          <widget class="QPushButton" name="detailMosaicTabButton">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -205,10 +204,9 @@ QPushButton:checked {
            <property name="styleSheet">
             <string notr="true">QPushButton {	
 	border: none;
-/*	text-align: center;*/
 	color: rgb(255,255,255);
 	text-align: left;;
-	padding-left: 50px;
+	padding-left: 20px;
 }
 QPushButton:hover {
 	background-color: rgb(33, 37, 43);
@@ -221,7 +219,7 @@ QPushButton:checked {
 }</string>
            </property>
            <property name="text">
-            <string>Teil-Mosaic erstellen</string>
+            <string>Detail-Mosaik erstellen</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -315,9 +313,9 @@ QPushButton:checked {
         <widget class="QPushButton" name="importButton">
          <property name="geometry">
           <rect>
-           <x>470</x>
+           <x>460</x>
            <y>50</y>
-           <width>81</width>
+           <width>91</width>
            <height>20</height>
           </rect>
          </property>
@@ -381,7 +379,7 @@ QPushButton:pressed {
            <x>40</x>
            <y>90</y>
            <width>511</width>
-           <height>351</height>
+           <height>311</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -396,11 +394,26 @@ QPushButton:pressed {
            <height>99999</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">
+QScrollBar:vertical {
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+}
+
+QScrollBar::handle:vertical {
+    background: rgb(75,166,255);
+	border-radius: 5px;
+}</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
          </property>
          <property name="autoScrollMargin">
           <number>16</number>
@@ -421,19 +434,127 @@ QPushButton:pressed {
           <bool>true</bool>
          </property>
         </widget>
-        <zorder>importButton</zorder>
-        <zorder>libraryLineEdit</zorder>
-        <zorder>libraryLabel</zorder>
-        <zorder>libraryLine</zorder>
-        <zorder>imageListView</zorder>
-       </widget>
-       <widget class="QWidget" name="classicPage">
-        <widget class="QLabel" name="mainImageLabel">
+        <widget class="QProgressBar" name="importProgressBar">
+         <property name="geometry">
+          <rect>
+           <x>460</x>
+           <y>50</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QProgressBar {
+	color: rgb(255,255,255);
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+ }
+
+ QProgressBar::chunk {
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+ }</string>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="deleteLibraryButton">
+         <property name="geometry">
+          <rect>
+           <x>460</x>
+           <y>420</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	border: rgb(255,255,255);
+	color: rgb(255,255,255);
+	background-color: rgb(75,166,255);
+	border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(51, 59, 73);
+}
+QPushButton:pressed {	
+	background-color: rgb(33, 37, 43);
+}</string>
+         </property>
+         <property name="text">
+          <string>Bibliothek Löschen</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="faceDetectionCheckBox">
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>20</y>
-           <width>61</width>
+           <y>50</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Auf Gesichter zuschneiden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="minNeighborsLabel">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>50</y>
+           <width>71</width>
            <height>21</height>
           </rect>
          </property>
@@ -446,15 +567,53 @@ QPushButton:pressed {
           <string notr="true">color: rgb(255,255,255);</string>
          </property>
          <property name="text">
-          <string>Bild</string>
+          <string>Schwellenwert:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="mainImageLineEdit">
+        <widget class="QLineEdit" name="minNeighborsLineEdit">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>20</y>
-           <width>441</width>
+           <x>290</x>
+           <y>50</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>30</string>
+         </property>
+        </widget>
+        <zorder>importButton</zorder>
+        <zorder>libraryLineEdit</zorder>
+        <zorder>libraryLabel</zorder>
+        <zorder>libraryLine</zorder>
+        <zorder>imageListView</zorder>
+        <zorder>importProgressBar</zorder>
+        <zorder>deleteLibraryButton</zorder>
+        <zorder>faceDetectionCheckBox</zorder>
+        <zorder>minNeighborsLabel</zorder>
+        <zorder>minNeighborsLineEdit</zorder>
+       </widget>
+       <widget class="QWidget" name="mosaicPage">
+        <widget class="QLineEdit" name="mosaicImageLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>50</y>
+           <width>390</width>
            <height>20</height>
           </rect>
          </property>
@@ -475,12 +634,12 @@ QPushButton:pressed {
           <string>D:\Projekt\Uni\Medienverarbeitung\res\input.png</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="classicButton">
+        <widget class="QPushButton" name="mosaicButton">
          <property name="geometry">
           <rect>
-           <x>470</x>
-           <y>50</y>
-           <width>81</width>
+           <x>460</x>
+           <y>420</y>
+           <width>91</width>
            <height>20</height>
           </rect>
          </property>
@@ -519,33 +678,12 @@ QPushButton:pressed {
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="Line" name="classicLine">
+        <widget class="QProgressBar" name="mosaicProgressBar">
          <property name="geometry">
           <rect>
-           <x>40</x>
-           <y>70</y>
-           <width>511</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(27, 29, 35)</string>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="partialPage">
-        <widget class="QProgressBar" name="importProgressBar">
-         <property name="geometry">
-          <rect>
-           <x>500</x>
-           <y>410</y>
-           <width>81</width>
+           <x>460</x>
+           <y>420</y>
+           <width>91</width>
            <height>20</height>
           </rect>
          </property>
@@ -568,12 +706,1421 @@ QPushButton:pressed {
  }</string>
          </property>
          <property name="value">
-          <number>24</number>
+          <number>50</number>
          </property>
          <property name="textVisible">
           <bool>false</bool>
          </property>
         </widget>
+        <widget class="QLineEdit" name="mosaicHeightLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>110</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>144</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="mosaicWidthLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>80</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>256</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>20</y>
+           <width>101</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Mosaik:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicWidthLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>80</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Breite:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicHeightLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>110</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Höhe:</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="mosaicKeepAspectRatioCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>140</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Höhe automatisch bestimmen</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicElementLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>250</y>
+           <width>101</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Elemente:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicImageLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>50</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Bild:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="mosaicElementSizeLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>280</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Breite/Höhe:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="mosaicElementSizeComboBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>280</y>
+           <width>53</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>32</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>64</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>128</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>256</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>512</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="mosaicTransparencyLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>220</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Transparenz:</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="mosaicTransparencySlider">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>220</y>
+           <width>160</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QSlider {
+	color: rgb(75,166,255);
+}
+QSlider:hover {
+	color: rgb(51, 59, 73);
+}</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="mosaicBlendImageCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Original-Bild überblenden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageEvenRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>einheitlich</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageRightRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach rechts</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageLeftRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach links</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageTopRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach oben</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="mosaicBlendImageDownRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach unten</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="detailMosaicPage">
+        <widget class="QLineEdit" name="detailMosaicImageLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>50</y>
+           <width>390</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>D:\Projekt\Uni\Medienverarbeitung\res\input.png</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicWidthLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>80</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Breite:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicHeightLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>110</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Höhe:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>20</y>
+           <width>120</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Detail-Mosaik:</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="detailMosaicKeepAspectRatioCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>140</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Höhe automatisch bestimmen</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="detailMosaicWidthLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>80</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>256</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicImageLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>50</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Bild:</string>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="detailMosaicProgressBar">
+         <property name="geometry">
+          <rect>
+           <x>460</x>
+           <y>420</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QProgressBar {
+	color: rgb(255,255,255);
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+ }
+
+ QProgressBar::chunk {
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+ }</string>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="detailMosaicHeightLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>110</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>144</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="detailMosaicButton">
+         <property name="geometry">
+          <rect>
+           <x>460</x>
+           <y>420</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	border: rgb(255,255,255);
+	color: rgb(255,255,255);
+	background-color: rgb(75,166,255);
+	border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(51, 59, 73);
+}
+QPushButton:pressed {	
+	background-color: rgb(33, 37, 43);
+}</string>
+         </property>
+         <property name="text">
+          <string>erstellen</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="detailMosaicElementMinSizeComboBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>280</y>
+           <width>53</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>32</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>64</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>128</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>256</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>512</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="detailMosaicElementLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>250</y>
+           <width>120</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Elemente:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicElementMinSizeLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>280</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>min. Breite/Höhe:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="detailMosaicElementMaxSizeComboBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>310</y>
+           <width>53</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="currentText">
+          <string>32</string>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>32</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>64</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>128</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>256</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>512</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="detailMosaicElementMaxSizeLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>310</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>max. Breite/Höhe:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicElementAllowedDeviationLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>340</y>
+           <width>100</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>erlaubte Abweichung:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="detailMosaicElementAllowedDeviationLineEdit">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>340</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {	
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(27, 29, 35);
+	border-radius: 5;
+}</string>
+         </property>
+         <property name="text">
+          <string>50</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicElementAllowedDeviationPercentageLabel">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>290</y>
+           <width>16</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="detailMosaicUseEdgedetectionCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>370</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Kantenerkennung nutzen</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="detailMosaicShowEdgesButton">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>400</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {	
+	border: rgb(255,255,255);
+	color: rgb(255,255,255);
+	background-color: rgb(75,166,255);
+	border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(51, 59, 73);
+}
+QPushButton:pressed {	
+	background-color: rgb(33, 37, 43);
+}</string>
+         </property>
+         <property name="text">
+          <string>Kanten anzeigen</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QSlider" name="detailMosaicTransparencySlider">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>220</y>
+           <width>160</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QSlider {
+	color: rgb(75,166,255);
+}
+QSlider:hover {
+	color: rgb(51, 59, 73);
+}</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="detailMosaicTransparencyLabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>220</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Transparenz:</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageRightRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach rechts</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageTopRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach oben</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageLeftRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach links</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageEvenRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>einheitlich</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="detailMosaicBlendImageCheckBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox{
+	color: rgb(255,255,255);
+}
+QCheckBox::indicator:unchecked{
+     border-radius: 2px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QCheckBox::indicator:checked{
+     border-radius: 2px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>Original-Bild überblenden</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="detailMosaicBlendImageDownRadioButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>200</y>
+           <width>80</width>
+           <height>14</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton{
+	color: rgb(255,255,255);
+}
+QRadioButton::indicator:unchecked{
+     border-radius: 5px;
+     background-color: rgb(27, 29, 35);
+	border: 1px solid rgb(27, 29, 35);
+}
+
+QRadioButton::indicator:checked{
+     border-radius: 5px;
+     background-color: rgb(75,166,255);
+	border: 1px solid rgb(27, 29, 35);
+}</string>
+         </property>
+         <property name="text">
+          <string>nach unten</string>
+         </property>
+        </widget>
+        <zorder>detailMosaicElementAllowedDeviationPercentageLabel</zorder>
+        <zorder>detailMosaicButton</zorder>
+        <zorder>detailMosaicImageLineEdit</zorder>
+        <zorder>detailMosaicWidthLabel</zorder>
+        <zorder>detailMosaicHeightLabel</zorder>
+        <zorder>detailMosaicLabel</zorder>
+        <zorder>detailMosaicKeepAspectRatioCheckBox</zorder>
+        <zorder>detailMosaicWidthLineEdit</zorder>
+        <zorder>detailMosaicImageLabel</zorder>
+        <zorder>detailMosaicProgressBar</zorder>
+        <zorder>detailMosaicHeightLineEdit</zorder>
+        <zorder>detailMosaicElementMinSizeComboBox</zorder>
+        <zorder>detailMosaicElementLabel</zorder>
+        <zorder>detailMosaicElementMinSizeLabel</zorder>
+        <zorder>detailMosaicElementMaxSizeComboBox</zorder>
+        <zorder>detailMosaicElementMaxSizeLabel</zorder>
+        <zorder>detailMosaicElementAllowedDeviationLabel</zorder>
+        <zorder>detailMosaicElementAllowedDeviationLineEdit</zorder>
+        <zorder>detailMosaicUseEdgedetectionCheckBox</zorder>
+        <zorder>detailMosaicShowEdgesButton</zorder>
+        <zorder>detailMosaicTransparencySlider</zorder>
+        <zorder>detailMosaicTransparencyLabel</zorder>
+        <zorder>detailMosaicBlendImageRightRadioButton</zorder>
+        <zorder>detailMosaicBlendImageTopRadioButton</zorder>
+        <zorder>detailMosaicBlendImageLeftRadioButton</zorder>
+        <zorder>detailMosaicBlendImageEvenRadioButton</zorder>
+        <zorder>detailMosaicBlendImageCheckBox</zorder>
+        <zorder>detailMosaicBlendImageDownRadioButton</zorder>
        </widget>
       </widget>
      </item>
